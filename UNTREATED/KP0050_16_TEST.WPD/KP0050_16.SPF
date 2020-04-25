@@ -1,0 +1,148 @@
+DEF REAL NS_CR,VS_CR,NS_SIDE,CAN_X,CAN_Z,P_1_X,P_1_Z,P_2_X,P_2_Z,CAN_CR_1,CAN_CR_2,KONUS,L_STUPICA
+;************************************************
+;KNUT MFD
+;Wheel: KP-0050-16, ULT25,  diam=920 mm CHISTOVAJA RASTOCHKA
+;last change: 19.04.2018
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+N15 CALL "KP0050_16_MA4_PARAMETER_SPF"
+;************************************************
+P_1_Z=5.568 P_2_X=0.375 P_2_Z=3.48 CAN_CR_1=6 CAN_CR_2=10  ;1_6_10
+ 
+NS_CR=1                      ;Радиус с Н/С 
+VS_CR=2                      ;Радиус с В/С
+; -----------------------------------------------
+L_STUPICA=185.5              ;Длина ступицы 
+VYLET_ST=23.75               ;Вылет ступецы
+NS_SIDE=(L_STUPICA-VYLET_ST) ;Координата торца с Н/С
+
+CAN_X=-0.03                  ;Координаты пояска/канавки по X
+CAN_Z=(185.5-23.75-90)       ;Координаты пояска/канавки по Z
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+
+N20    N_PREPARE_FOR_MACHINING
+;************************************************
+;********
+;* INIT *
+;********
+N25 M51 M56
+
+N30 T="222"
+N35 M6
+N40 DIAMOF
+
+;CALL ZERO POINT SHIFT
+N45 G55
+N50 DIAMOF
+;*************************
+;RADIUSA S PRIPUSKOM 0.3 mm
+;*************************
+N111 M42
+N115 G97 M4 S=181
+N120 G0 G40 G95 X=-BORE_DIAM+1 Z=NS_SIDE+GLOBAL_ALLOWANCE+10
+
+N125 G1 G42 X=-BORE_DIAM+0.20 Z=NS_SIDE+5.1 F=1 M7 M8
+N130 G1     X=-BORE_DIAM+0.11 Z=NS_SIDE     F=0.75
+
+            			
+                              KONUS=-0.099
+			X=-BORE_DIAM+0.11+(KONUS/(L_STUPICA+5))*(NS_SIDE-CAN_Z-5) Z=CAN_Z+5  F=0.75 
+			X=-BORE_DIAM+0.11+(KONUS/(L_STUPICA+5))*(NS_SIDE-CAN_Z+5) Z=CAN_Z-5  F=0.3
+  ;                          KONUS CHERNOVOJ
+N135 G1     X=-BORE_DIAM+0.11 +KONUS          Z=-VYLET_ST-5 F=0.75
+
+
+
+N140 G0 G40 X=IC(15) Z=-VYLET_ST-25 M9
+N145    Z=NS_SIDE+GLOBAL_ALLOWANCE+20
+;*************************
+;RADIUSA
+;*************************
+N150 G97 M4 S=175
+N155 G0 G40 G95 X=-BORE_DIAM-1    Z=NS_SIDE+GLOBAL_ALLOWANCE+10
+
+N160 G1 G42 X=-BORE_DIAM-1-NS_CR  Z=NS_SIDE F=0.7 M7 M8
+N165 G1 X=-BORE_DIAM-NS_CR        Z=NS_SIDE F=0.5
+N170 G3 X=-BORE_DIAM              Z=NS_SIDE-NS_CR CR=NS_CR F=0.35
+N175 G1 X=-BORE_DIAM+0.75         Z=NS_SIDE-10 F=0.35
+
+N180 G1 X=-BORE_DIAM+0.75         Z=CAN_Z+P_1_Z+15 F=4
+N185 G1 X=-BORE_DIAM-P_1_X+CAN_X  Z=CAN_Z+P_1_Z  F=0.35
+N190 G3 X=-BORE_DIAM-P_2_X+CAN_X  Z=CAN_Z+P_2_Z CR=CAN_CR_1  F=0.176
+    G4S2
+N195 G2 X=-BORE_DIAM-P_2_X+CAN_X  Z=CAN_Z-P_2_Z CR=CAN_CR_2 F=0.001
+    G4S2
+N200 G3 X=-BORE_DIAM-P_1_X+CAN_X  Z=CAN_Z-P_1_Z CR=CAN_CR_1 F=0.176
+N205 G1 X=-BORE_DIAM+0.75         Z=CAN_Z-P_1_Z-15 F=0.35 M23
+N206 M9
+
+;**********RADIUS     NIZ;*******
+
+
+N210 G1 X=-BORE_DIAM+0.75             Z=-VYLET_ST+VS_CR+10 F=4 M8
+N215 G1 X=-BORE_DIAM        +KONUS    Z=-VYLET_ST+VS_CR F=0.35 
+N220 G3 X=-BORE_DIAM-VS_CR  +KONUS    Z=-VYLET_ST CR=VS_CR F0.195 
+
+
+
+
+N225 G0 G40 X=IC(15) Z=-VYLET_ST-25 M9
+N230    Z=NS_SIDE+GLOBAL_ALLOWANCE+20 M5
+N235 G60 G153 D0 X=1000 Z=700
+;***************************************
+N240 T="52" D1
+N245 M6
+N250 DIAMOF
+;***************************************
+N255 GOTOF FINISHNAYA_RASTOCHKA
+
+N260 G97 M3 S=220
+N265 G0 G40 G95 X=BORE_DIAM-GLOBAL_ALLOWANCE-2 Z=NS_SIDE+GLOBAL_ALLOWANCE+15
+
+N270 G1 G41 X=BORE_DIAM-0.3 Z=NS_SIDE+10 F=0.7 M7 M8
+;N1880 G1 X=BORE_DIAM-0.3 Z=NS_SIDE F=0.2
+N275 G1 X=BORE_DIAM-0.3-0.087 Z=-VYLET_ST-10 F=0.15
+
+N280 G0 G40 X=IC(-5) Z=-VYLET_ST-5 M9
+N285    Z=NS_SIDE+GLOBAL_ALLOWANCE+10
+;****************************************
+N290 FINISHNAYA_RASTOCHKA:
+;****************************************
+N295 G97 M3 S=220
+N300 G0 G40 G95 X=BORE_DIAM-GLOBAL_ALLOWANCE+2 Z=NS_SIDE+GLOBAL_ALLOWANCE+15
+
+N305 G1 G41 X=BORE_DIAM Z=NS_SIDE+10 F=0.7 M7 M8
+
+
+
+
+                   KONUS=-0.099
+N310 G1 X=BORE_DIAM      +KONUS     Z=-VYLET_ST-5 F=0.15
+
+
+
+
+N315 G0 G40 X=IC(-5) Z=-VYLET_ST-5 M9
+N320    Z=NS_SIDE+GLOBAL_ALLOWANCE+20
+;********************
+;N1020 G97 M3 S=200 LIMS=200 M23
+;************************************************
+N325 SUPA D0 X=1000 Z=800
+N330  M42 M9 M5
+N335  SPOS=33
+N340       M5
+N345      G4 F3
+N350 M0
+N355  M52
+
+N360 T="222"
+N365 M6
+N370 D1
+N375 DIAMOF
+;*********************
+;*END OF PROGRAM*
+;*********************
+N380 M2

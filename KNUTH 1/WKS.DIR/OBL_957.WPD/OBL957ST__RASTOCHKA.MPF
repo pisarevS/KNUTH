@@ -1,0 +1,92 @@
+;********************MS___45/59****************************
+;KNUT MFD
+;Wheel:  OBLEGCHENKA 957 VS STUP+RAST
+;last change: 23.06.2017 by DIS
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "OBL_957_MA1_PARAMETER_SPF"
+N30    N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+
+;********
+;* INIT *
+;********
+N1090 T5
+N1100 M6
+;************************************************
+;NARUGNAYA STORONA
+;************************************************
+N1050 G18 G90 G95 F=1.2
+N1060   N_PREPARE_FOR_MACHINING
+;********
+;* INIT *
+;********
+N1070 M51 
+N1080 M56
+
+;N1090 T5
+;N1100 M6
+N1110 DIAMOF
+
+;CALL ZERO POINT SHIFT
+N1120 G55
+N1130 DIAMOF
+N1140  G96 M42 M3 S=100
+N1150 M0
+;************************************************
+;RASTOCHKA STUPICY
+;************************************************
+N1440  M3 G97 S=140 LIMS=140
+;************************************************
+;RASTOCHKA, 1 CUT
+;************************************************
+N1450 G0 G40 G95 X=BORE_DIAM-10-GLOBAL_ALLOWANCE Z=110.5+GLOBAL_ALLOWANCE+15 M8
+;-----------------------------
+;N1460  GOTO RASTOCHKA_2
+;------------------------------
+N1470 G1 X=BORE_DIAM-7-GLOBAL_ALLOWANCE Z=110.5+GLOBAL_ALLOWANCE F=1 M7
+N1480  Z=-84.5-3 F=1
+
+N1490 G0 G40 X=IC(-2)
+N1500    Z=110.5+GLOBAL_ALLOWANCE+5
+N1510    X=BORE_DIAM-0.4-GLOBAL_ALLOWANCE
+;***********************
+N1520 RASTOCHKA_2:
+;***********************
+N1530 G97 M3 S=160
+N1540 LIMS=160
+N1550 G1 X=BORE_DIAM-0.4-GLOBAL_ALLOWANCE Z=110.5+GLOBAL_ALLOWANCE F=1 M7
+N1560 Z=-84.5-3 F=1.2
+
+N1570 G0 G40 X=IC(-2)
+N1580    Z=110.5+GLOBAL_ALLOWANCE+5
+;***********************
+;REZ'BA
+;***********************
+N1590 G97 M3 S=180
+N1600 LIMS=180
+N1610 G1 X=BORE_DIAM-GLOBAL_ALLOWANCE Z=110.5+GLOBAL_ALLOWANCE+1 F=1 M7
+N1620 Z=-84.5-15 F=4 M23
+
+N1630 G0 G40 X=IC(-2)
+N1640    Z=110.5+GLOBAL_ALLOWANCE+15
+N1650 M9
+;************************************************
+;PATH-CTRL-MODE TO TOOL CHANGE T1
+;************************************************
+N1660 G0 G40 Z=IC(50)
+N1670 SUPA D0 X=1000 Z=700
+N1680 G97 M3 S=20
+N1700  SPOS=235
+N1710       M5
+N1720      G4 F3
+N1730  M52
+;*********************
+;*END OF PROGRAM*
+;*********************
+N1770 M2

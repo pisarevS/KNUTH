@@ -1,0 +1,49 @@
+;**********************NORMA___1O/13********45___MIN**************
+;**********BOLSHOY___BOLT___NA___4___OTVERSTIYA_______29MM********
+;*********SMOTRET___DLINA__N/S___MINUS___VILIT__V/S___155*********
+;*****************************************************************
+;Hegenscheidt MFD
+;Wheel: X.03.01045 diam920
+;last change: 31.07.2017
+;************************************************
+;PROGRAM-TYPE: Parameter Program
+;VERSION: 1.0
+;************************************************
+
+;**********************************
+;* SETTING UP MACHINING VARIABLES *
+;**********************************
+;THESE THREE VALUES ARE ESSENTIAL FOR
+;ZERO POINT SHIFT CALCULATION.
+N_WHEEL_UNMACHINED=145.5
+N_WHEEL_MACHINED=135
+;SYMMETRIC-FACTOR FOR SHIFTING THE FINAL PART INSIDE THE RAW PART
+;<0.5 MORE ALLOWANCE FOR SIDE 1 BUT LESS FOR SIDE 2.
+;=0.5 ALLOWANCE FOR SIDE 1 AND 2 IS EQUAL.
+;>0.5 SMALLER ALLOWANCE FOR SIDE 1 BUT MORE FOR SIDE 2.
+N_SYM_FACTOR=0.5
+
+TREAD_DIAM=(920)/2
+WHEEL_HEIGHT=N_WHEEL_MACHINED
+TREAD_HEIGHT_S2=70
+TREAD_HEIGHT_S1=WHEEL_HEIGHT-TREAD_HEIGHT_S2
+
+GLOBAL_ALLOWANCE=0
+TREAD_ALLOWANCE=0.7
+
+BORE_DIAM=179/2
+
+VYLET_ST=0
+STUPICA_VNUT=0
+STUPICA_NAR=-0.2
+
+DISK_VNUT=-1.4
+DISK_NAR=1
+
+YABLOKO_VNUT=0.2
+YABLOKO_NAR=0.5
+;******************
+;* AUX PARAMETERS *
+;******************
+
+M17

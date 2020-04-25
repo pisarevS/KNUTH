@@ -1,0 +1,96 @@
+;************************************************
+;KNUT MFD
+;Wheel:860 
+;
+;last change: 25.11.2018 by DIS
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "OBL_957_MA4_PARAMETER_SPF"
+N30    N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+
+;********
+;* INIT *
+;********
+N50 T125
+N60 M6
+N70 D1
+N80 DIAMOF
+N90 G97 M41 M3 S40
+N100 M0
+;CALL ZERO POINT SHIFT
+N110 DIAMOF
+
+N120 G0 G40 G54
+N375 G96 S=140 LIMS=140 M42
+N380  G60 X=150+15 Z=WHEEL_HEIGHT+36.5+VYLET_ST+GLOBAL_ALLOWANCE M7M8
+;*****************
+; TORCOVKA_STUPICY
+;******************
+N390 OFFN=GLOBAL_ALLOWANCE
+N400 G1 G41 X=150+5 Z=WHEEL_HEIGHT+36.5+VYLET_ST F=2.5 M7 M8
+N410  X=BORE_DIAM-10 Z=WHEEL_HEIGHT+36.5+VYLET_ST F=1.14
+
+N400 G0 G40 Z=WHEEL_HEIGHT+36.5+50
+N430 G96 M3 S=120 LIMS=140
+;************************************************
+;PATH-CTRL-MODE TO TOOL CHANGE T5
+;************************************************
+N510 G0 G40 G603 G641 ADISPOS=25 OFFN=0
+N520  G153 D0 Z=700
+N530  G153 G60 X=1000 M60 M9
+N540 T5
+N550 M6
+N560 DIAMOF
+;************************************************
+;RASTOCHKA STUPICY
+;************************************************
+N1430  M42
+N1440  M3 G97 S=160 LIMS=160
+;************************************************
+;RASTOCHKA, 1 CUT
+;************************************************
+N1450 G0 G40 G95 X=BORE_DIAM-10-GLOBAL_ALLOWANCE Z=WHEEL_HEIGHT+36.5+VYLET_ST+15 M8
+;-----------------------------
+N1460  GOTO RASTOCHKA_2
+;------------------------------
+N1470 G1 X=BORE_DIAM-6-GLOBAL_ALLOWANCE Z=110.5+GLOBAL_ALLOWANCE F=1 M7
+N1480  Z=-84.5-5 F=0.8
+
+N1490 G0 G40 X=IC(-2)
+N1500    Z=110.5+GLOBAL_ALLOWANCE+5
+N1510    X=BORE_DIAM-0.4-GLOBAL_ALLOWANCE
+;***********************
+N1520 RASTOCHKA_2:
+;***********************
+N1530 G97 M3 S=160
+N1540 LIMS=160
+N1550 G1 X=BORE_DIAM Z=WHEEL_HEIGHT+36.5+VYLET_ST F=1.2 M7
+N1560 Z=-46 F=1.2
+
+N1570 G0 G40 X=IC(-2)
+N1580   Z=WHEEL_HEIGHT+36.5+VYLET_ST+5
+N1660 G0 G40 Z=IC(50)
+N1670 SUPA D0 X=1000 Z=700
+N1680 G97 M3 S=20
+N1690  M41
+N1700  SPOS=149
+N1710       M5
+N1720      G4 F1
+N1730  M52
+N1740 T125
+N1750 M6
+N1760 D1
+N1770 DIAMOF
+
+
+
+;*********************
+;*END OF PROGRAM*
+;*********************
+N1740 M2

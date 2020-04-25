@@ -1,0 +1,145 @@
+;************************************************
+;KNUT MFD
+;Wheel:  KP-0017-16, d=928 mm (VS STUP+RAST)
+;last change: 11.01.2018
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "KP0017_16_MA2_PARAMETER_SPF"
+N30 N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+
+;********
+N2770 
+;************************************************
+;NARUGNAYA STORONA
+;************************************************
+N1050 G18 G90 G95 F=1.2
+N1060   N_PREPARE_FOR_MACHINING
+;********
+;* INIT *
+;********
+N1070 M51 
+N1080 M56
+
+N1090 T5
+N1100 M6
+N1110 DIAMOF
+
+;CALL ZERO POINT SHIFT
+N1120 G55
+N1130 DIAMOF
+N1140  G97 M42 M3 S=10
+N1150 M0
+G97 M42 M3 S=100
+;************************************************
+;RASTOCHKA STUPICY, 1 CUT
+;************************************************
+N1440  M3 G97 S=170 LIMS=170
+N1450 G0 G40 G95 X=BORE_DIAM-10-GLOBAL_ALLOWANCE Z=180+GLOBAL_ALLOWANCE+25
+;-----------------------------
+;N1460  GOTO RASTOCHKA_2
+;------------------------------
+N1470 G1 X=BORE_DIAM-5-GLOBAL_ALLOWANCE Z=180+GLOBAL_ALLOWANCE+2+15 F=1 M7 M8
+N1480  Z=-34-9 F=1
+
+N1490 G0 G40 X=IC(-2)
+N1500    Z=180+GLOBAL_ALLOWANCE+15+5
+N1510    X=BORE_DIAM-GLOBAL_ALLOWANCE-2
+;***********************
+N1520 RASTOCHKA_2:
+;***********************
+N1590 G97 M3 S=170
+N1600 LIMS=180
+N1610 G1 X=BORE_DIAM-GLOBAL_ALLOWANCE Z=180+GLOBAL_ALLOWANCE+15 F=1 M7
+N1620 Z=-34-14 F=1.1
+
+N1630 G0 G40 X=IC(-2)
+N1640    Z=180+GLOBAL_ALLOWANCE+25
+;************************************************
+;PATH-CTRL-MODE TO TOOL CHANGE T1
+;************************************************
+N1660 G0 G40 Z=IC(50) M5 M9
+N1670 SUPA D0 X=1000 Z=700 M60
+
+N910 M9
+N920 SPOS=116
+N930    M5
+N940 G4F3
+N950 M52 
+
+N960 M56
+;*********************
+;*POSICITION N/S*
+;*********************
+N970 M0
+
+N980 M51
+N990 G97 M3 S5
+N1000 SPOS=256
+N1010 M5
+N1020 G4F3
+N1030 M52
+
+N1090 T125
+N1100 M6
+N1040 M0
+;* INIT *
+;********
+N50 T125
+N60 M6
+N70 D1
+N80 DIAMOF
+M51
+N90 G97 M42 M3 S=10
+N100 M0
+N90 G97 M42 M3 S=63
+;*****************
+;PODHOD K STUPICE
+;*****************
+N260 G96 S=120 LIMS=170
+N270 G0 G40 G54 X=150+10 Z=WHEEL_HEIGHT+24+5
+
+    GOTOF TORCOVKA_STUPICY_2
+
+;*************************
+; TORCOVKA_STUPICY 1
+;*************************
+N390 OFFN=GLOBAL_ALLOWANCE
+N400 G1 G41 X=150+10 Z=WHEEL_HEIGHT+24+VYLET_ST+5 F=1.2 M7 M8
+N410  X=BORE_DIAM-5 Z=WHEEL_HEIGHT+24+VYLET_ST+5 F=0.8
+
+N400 G0 G40 Z=WHEEL_HEIGHT+24+10
+N410        X=150+10
+;*************************
+ TORCOVKA_STUPICY_2:
+;*************************
+N390 OFFN=GLOBAL_ALLOWANCE
+N400 G1 G41 X=150+10 Z=WHEEL_HEIGHT+24+VYLET_ST F=1.2 M7 M8
+N410  X=BORE_DIAM-5 Z=WHEEL_HEIGHT+24+VYLET_ST F=0.8
+
+N400 G0 G40 Z=WHEEL_HEIGHT+24+100 M9
+;************************************************
+;GO TO HOME POSITION
+;************************************************
+N860 M5
+N870 G153 D0 Z=800
+N880 G60 G153 X=1000 M9
+
+;************************************************
+N1700  SPOS=116
+N1710       M5
+N1720      G4 F3
+N1730  M52
+N2730 T5
+N2740 M6
+N2750 D1
+N2760 DIAMOF
+;*********************
+;*END OF PROGRAM*
+;*********************
+N1740 M2

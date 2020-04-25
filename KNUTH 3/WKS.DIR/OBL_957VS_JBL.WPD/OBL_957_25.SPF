@@ -1,0 +1,74 @@
+;************************************************
+;KNUT MFD
+;Wheel:  OBLEGCHENKA 957
+;DISK TOCHIT T125 S V/S JBL
+;last change: 13.10.2016 by DIS
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "OBL_957_MA1_PARAMETER_SPF"
+N30    N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+
+;********
+;* INIT *
+;********
+N50 T125
+N60 M6
+N70 D1
+N80 DIAMOF
+N90 G97 M42 M3 S=60
+N100 M0
+;CALL ZERO POINT SHIFT
+N110 DIAMOF
+
+
+
+N260 G97 M3 S=200 LIMS=120
+;*****************
+;CHERNOVOY PROVOD OT YABLOKA
+;*****************
+N270 G0 G40 G54 X=408.275-1 Z=WHEEL_HEIGHT+10
+
+N280 OFFN=GLOBAL_ALLOWANCE
+N290 G96 M3 S=200
+N300 G1 G41 X=408.275+YABLOKO_VNUT+0.5+1 Z=WHEEL_HEIGHT+0.3+0.8 F=2 M7 M8
+;N305 G1  X=408.275+YABLOKO_VNUT+0.3 Z=WHEEL_HEIGHT+0.3 F=2
+N310   X=404.275+YABLOKO_VNUT Z=WHEEL_HEIGHT-4 F=1.7
+N320   X=400.444+YABLOKO_VNUT Z=WHEEL_HEIGHT-22.024-4 F=1.6
+N330 G3 X=347.713+YABLOKO_VNUT Z=WHEEL_HEIGHT-52.507+DISK_VNUT CR=41 F=1.7
+N375 G97 S=180 LIMS=180
+N370 G0 G40 D1 Z=WHEEL_HEIGHT+84.5+250 M23
+N375 G97 S=180 LIMS=180 M23
+
+
+;************************************************
+;PATH-CTRL-MODE TO HOME POSITION
+;************************************************
+;N840 G0 G40 G603 G641 ADISPOS=5 OFFN=0 
+;N850  X=TREAD_DIAM+32 Z=TREAD_HEIGHT_S1+19
+;N860     G97 M3 S200 LIMS=200
+N870  G153 D0 Z=800
+N880  G60 G153 X=1000
+;************************************************
+;MACHINING CH1 FINISHED, WAIT FOR FINISHING CH2
+;************************************************
+N900 G97 M3 S180 LIMS=180 M9 
+;N890 G4 F1 M22
+N910 M9
+N920 SPOS=353
+N930    M5
+N940 G4 F1
+N950 M52 
+
+N960 M56
+
+
+;*********************
+;*END OF PROGRAM*
+;*********************
+N1740 M2

@@ -1,0 +1,198 @@
+;************************************************
+;KNUT MFD
+;Wheel: KP-0062-15, d=928 mm (OBTOCHKA STUPICY S V/S I N/S+RASTOCHKA)
+;last change: 24.01.2018
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "KP0062_15_MA4_PARAMETER_SPF"
+N30    N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+;********
+;* INIT *
+;********
+
+N50 T5
+N60 M6
+N70 DIAMOF
+;************************************************
+;RASTOCHKA STUPICY
+;************************************************
+N80 G97 M3 S=70
+N90 M0
+N100  M42
+N110  M3 G97 S=150 LIMS=160
+;************************************************
+;RASTOCHKA, 1 CUT
+;************************************************
+N120 G0 G40 G95 G55 X=BORE_DIAM-10-GLOBAL_ALLOWANCE Z=178.5+GLOBAL_ALLOWANCE+15 M8
+;-----------------------------
+;N1460  GOTO RASTOCHKA_2
+;------------------------------
+N130 G1 X=BORE_DIAM-6-GLOBAL_ALLOWANCE Z=178.5+5+GLOBAL_ALLOWANCE F=0.8 M7
+N140  Z=-24.5-8 F=0.9
+
+N150 G0 G40 X=IC(-2)
+N160    Z=178.5+GLOBAL_ALLOWANCE+5
+N170    X=BORE_DIAM-0.4-GLOBAL_ALLOWANCE
+;***********************
+N180 RASTOCHKA_2:
+;***********************
+N190 G97 M3 S=160
+N200 LIMS=170
+N210 G1 X=BORE_DIAM-0.4-GLOBAL_ALLOWANCE Z=178.5+GLOBAL_ALLOWANCE F=1 M7
+N220 Z=-24.5-9 F=1.22
+
+N230 G0 G40 X=IC(-2)
+N240    Z=178.5+GLOBAL_ALLOWANCE+5
+;***********************
+;REZ'BA
+;***********************
+N250 G97 M3 S=170
+N260 LIMS=170
+N270 G1 X=BORE_DIAM-GLOBAL_ALLOWANCE Z=178.5+GLOBAL_ALLOWANCE+1 F=1 M7
+N280 Z=-24.5-10 F=4.7
+
+N290 G0 G40 X=IC(-2)
+N300    Z=178.5+GLOBAL_ALLOWANCE+15
+N310 M9
+;************************************************
+;PATH-CTRL-MODE TO TOOL CHANGE T1
+;************************************************
+N320 G0 G40 Z=IC(50)
+N330 SUPA D0 X=1000 Z=700
+
+N340 T125
+N350 M6
+N360 D1
+N370 DIAMOF
+
+;CALL ZERO POINT SHIFT
+N380 G55
+N390 DIAMOF
+
+N400  G97 M42 M3 S=155
+N410 ; G95 LIMS=120
+
+N420 G0 G40 X=BORE_DIAM-30 Z=178.5+8
+;*************************
+; TORCOVKA_STUPICY
+;*************************
+;N390 OFFN=GLOBAL_ALLOWANCE+4
+;N400 G1 G41 X=125.916+17 Z=178.5 F=1.4 M7 M8
+;N410  X=BORE_DIAM-15 Z=178.5 F=1.4
+
+;N400 G0 G40 X=IC(-5) Z=IC(5)
+;************************************************
+;OT STUPICY 
+;************************************************
+N430 G96 M3 S=160 LIMS=170
+N440 OFFN=GLOBAL_ALLOWANCE
+N450 G1 G42 X=BORE_DIAM-20 Z=177 F=1.3 M7M8
+N460 X=123.354+STUPICA_NAR Z=177 F=1.4 
+N470 G3 X=126.317+STUPICA_NAR Z=174.469 CR=3 F=1.2
+N480 G1 X=135.418+STUPICA_NAR Z=118.509 F=1.65 M23
+N490 G2 X=168.505 Z=90.25+DISK_NAR+3 CR=33.5
+;************************************************
+;PATH-CTRL-MODE TO TOOL CHANGE T5
+;************************************************
+G97 M3 S=22 M9
+N500 G0 G40 G603 G641 ADISPOS=25 OFFN=0 S=20 M5
+N510  G153 D0 Z=700
+N520  G153 G60 X=1000  M9
+
+N530 M23
+;N540 G97 M3 S200 LIMS=200 
+;N890 G4 F20
+N550 M9
+N560 SPOS=254
+N570    M5
+N580 G4F3
+N590 M52 
+
+N600 M56
+N610 MSG("OBRABOTKA V/S ZAVERSHENA")
+;*********************
+;*POSICITION N/S*
+;*********************
+N620 M0
+
+N630 M51
+N640 G97 M3 S5
+N650 SPOS=116
+N660 M5
+N670 G4F3
+N680 M52
+
+N690 MSG("ZAGRUZKA N/S")
+N700 M0
+;************************************************
+;NARUGNAYA STORONA
+;************************************************
+N710 G18 G90 G95 F=1.2
+N720   N_PREPARE_FOR_MACHINING
+;********
+;* INIT *
+;********
+N730 M51 
+N740    M56
+
+N750 
+N760  T125
+N770 M6
+N780 D1
+N790 DIAMOF
+N800 G97 M42 M3 S=93
+N810 M0
+;*****************
+;PODHOD K STUPICE
+;*****************
+N820 G97 S=155 LIMS=170
+N830 G0 G40 G54 X=125.916+15 Z=WHEEL_HEIGHT+24.5+5
+;*************************
+; TORCOVKA_STUPICY
+;*************************
+N840 OFFN=GLOBAL_ALLOWANCE+4
+N850 G1 G41 X=125.916+17 Z=WHEEL_HEIGHT+24.5+VYLET_ST F=1.4 M7 M8
+N860  X=BORE_DIAM-15 Z=WHEEL_HEIGHT+24.5+VYLET_ST F=1.35
+
+N870 G0 G40 X=IC(-5) Z=IC(5)
+N880 G96 M3 S=170 LIMS=160
+;************************************************
+;OT STUPICY
+;************************************************
+N890 OFFN=GLOBAL_ALLOWANCE
+N900 G1 G42 X=BORE_DIAM-10 Z=WHEEL_HEIGHT+24.5+VYLET_ST F=1.4 M7 M8
+N910 X=123.354+STUPICA_VNUT Z=WHEEL_HEIGHT+24.5+VYLET_ST F=1.6
+N920 G3 X=126.317+STUPICA_VNUT Z=WHEEL_HEIGHT+21.969+VYLET_ST CR=3 F=1.8 M23
+N930 G1 X=134.467+STUPICA_VNUT Z=WHEEL_HEIGHT-29.491  F=1.8
+N940 G2 X=167.555+STUPICA_VNUT Z=WHEEL_HEIGHT-57.75+DISK_VNUT+2.8 CR=33.5 F=1.6
+;************************************************
+;GO TO HOME POSITION
+;************************************************
+G97 M3 S=20 M9
+N950 G0 G40 Z=WHEEL_HEIGHT+150 S=20 M5
+;N960 G97 M3 S200 LIMS=200
+N970 G153 D0 Z=800
+N980 G60 G153 X=1000 M9
+
+;************************************************
+;PATH-CTRL-MODE TO TOOL CHANGE T5
+;************************************************
+
+N990  SPOS=116
+N1000       M5
+N1010      G4 F3
+N1020  M52
+N1030 T5
+N1040 M6
+N1050 D1
+N1060 DIAMOF
+;*********************
+;*END OF PROGRAM*
+;*********************
+N1070 M2

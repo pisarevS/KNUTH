@@ -1,0 +1,67 @@
+;************************************************
+;KNUT MFD
+;Wheel: KP0059-05A J-36'' USA
+;last change: 17.01.2017 by DIS
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "KP0059_05A_MA3_PARAMETER_SPF"
+N30 N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+;********
+;* INIT *
+;********
+N50 T125
+N60 M6
+N70 D1
+N80 DIAMOF
+N90 G97 M42 M3 S50
+N100 M0
+N110 DIAMOF
+;************************************************
+;OT YABLOKA
+;************************************************
+N1700 G96 M3  M42 S=160 LIMS=120
+N1710 G0 G40  X=403.05-$P_TOOLR Z=WHEEL_HEIGHT+8
+N1720 OFFN=0
+N1730 G1 G41 X=403.05+0.3+YABLOKO_NAR Z=WHEEL_HEIGHT F=1.1 M8
+N1740 X=402.969+YABLOKO_NAR Z=WHEEL_HEIGHT-0.381 F=1
+N1750 G1 X=396.966+YABLOKO_NAR Z=116.679+DISK_NAR F=1.2
+N1760 G3 X=359.774+YABLOKO_NAR Z=86.500+DISK_NAR CR=38.1 F=1.2
+N1780 G2 X=264.672 Z=36.211+DISK_NAR CR=115.5 F=1.4
+N1790 G3 X=224.136 Z=2.976+DISK_NAR CR=93.5 F=1.3
+N1800 X=206.504 Z=-0.622+DISK_NAR+0.2 CR=45 F=1.2
+N1810 G4S1
+
+N1820 G0 G40 G603 G641 Z=WHEEL_HEIGHT+200
+N1890  X= 147.3+7  Z=114.3+7
+;************************************************
+;OT STUPICY 
+;************************************************
+N1900 G96 M3  S=160 LIMS=130
+N1910 OFFN=0
+N1920 G1 G42 X=147+STUPICA_NAR Z=114.3 F=1.1
+N1930    X=147.371+STUPICA_NAR  Z=113.929 F=1.2
+N1940 X=162.306+STUPICA_NAR  Z=35.917+DISK_NAR F=1.2
+N1950 G2 X=206.504 Z=-0.622+DISK_NAR CR=45 F=1.1
+N1960  X=224.136 Z=2.976+0.3+DISK_NAR CR=45 F=1.4
+;************************************************
+;MOVE TO LOADING POSITION/WAIT FOR CH1
+;************************************************
+N1970 G0 G40 G603 G641 ADISPOS=25 OFFN=0 M23
+N1980  G153 D0 Z=700
+N1990  G60 G153 X=1000
+N2360 G97 M3 S=150 LIMS=150 M9
+N2365 G4 F5
+N2420 SPOS=236
+N2430 M5
+N2440 G4 F3
+N2450 M52
+;*********************
+;*END OF PROGRAM*
+;*********************
+N2460 M2
