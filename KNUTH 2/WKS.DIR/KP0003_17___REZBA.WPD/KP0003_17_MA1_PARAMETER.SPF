@@ -1,0 +1,51 @@
+;*********************NORMA___6/8******7___MIN********************
+;***********************KULOCHKI__RAZVERNUTIE**********************
+;*************BOLSHOY__BOLT__NA__7__OTVERSTIE___63MM___40MM********
+;**S__ZADI__POMENYAT___SALENOIDI____DLYA__VRASHENIYA__PLANSHAYBI***
+;***************RASTOCHKA___PROISHODIT___PO___V/S__STORONE*********
+;******************************************************************
+;Hegenscheidt MFD
+;Wheel: KP-0003-17 diam1250 ROMANIA
+;last change: 16.05.2017
+;************************************************
+;PROGRAM-TYPE: Parameter Program
+;VERSION: 1.0
+;************************************************
+
+;**********************************
+;* SETTING UP MACHINING VARIABLES *
+;**********************************
+;THESE THREE VALUES ARE ESSENTIAL FOR
+;ZERO POINT SHIFT CALCULATION.
+N_WHEEL_UNMACHINED=147
+N_WHEEL_MACHINED=141
+;SYMMETRIC-FACTOR FOR SHIFTING THE FINAL PART INSIDE THE RAW PART
+;<0.5 MORE ALLOWANCE FOR SIDE 1 BUT LESS FOR SIDE 2.
+;=0.5 ALLOWANCE FOR SIDE 1 AND 2 IS EQUAL.
+;>0.5 SMALLER ALLOWANCE FOR SIDE 1 BUT MORE FOR SIDE 2.
+N_SYM_FACTOR=0.5
+
+TREAD_DIAM=(1250.4/2)
+WHEEL_HEIGHT=N_WHEEL_MACHINED
+TREAD_HEIGHT_S2=70
+TREAD_HEIGHT_S1=WHEEL_HEIGHT-TREAD_HEIGHT_S2
+
+GLOBAL_ALLOWANCE=0
+TREAD_ALLOWANCE=0.4
+
+BORE_DIAM=211/2
+
+VYLET_ST=0.15
+STUPICA_VNUT=0.5
+STUPICA_NAR=0.55
+
+DISK_VNUT=-0.8
+DISK_NAR=1
+
+YABLOKO_VNUT=0
+YABLOKO_NAR=0
+;******************
+;* AUX PARAMETERS *
+;******************
+
+M17

@@ -1,0 +1,37 @@
+;************************************************
+;KNUTH
+;Wheel: KP-0028-17  diam=920 mm
+;NTZ: KP-0028-17 ULT90
+;last change: 12.11.2018
+;************************************************
+N_WHEEL_UNMACHINED=142
+N_WHEEL_MACHINED=135
+
+N_SYM_FACTOR=0.5
+
+TREAD_DIAM=(922)/2
+WHEEL_HEIGHT=N_WHEEL_MACHINED
+
+TREAD_HEIGHT_S2=70
+TREAD_HEIGHT_S1=WHEEL_HEIGHT-TREAD_HEIGHT_S2
+
+GLOBAL_ALLOWANCE=0
+TREAD_ALLOWANCE=0.3
+
+BORE_DIAM=(209-0.025)/2 ;(dopusk -0.241 -0.287)
+
+VYLET_ST=0
+
+STUPICA_VNUT=0
+STUPICA_NAR=0
+
+DISK_VNUT=0
+DISK_NAR=0
+
+YABLOKO_VNUT=0
+YABLOKO_NAR=0
+;******************
+;* AUX PARAMETERS *
+;******************
+
+M17

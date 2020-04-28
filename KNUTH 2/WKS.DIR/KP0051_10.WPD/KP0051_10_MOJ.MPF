@@ -1,0 +1,131 @@
+;************************************************
+;KNUT MFD
+;Wheel:  KP-0051-10, d=928 mm (VS STUP+RAST)
+;last change: 11.01.2018
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "KP0051_10_MA2_PARAMETER_SPF"
+N30 N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+
+;********
+;* INIT *
+;********
+N50 T125
+N60 M6
+N70 D1
+N80 DIAMOF
+N90 G97 M42 M3 S=63
+N100 M0
+;*****************
+;PODHOD K STUPICE
+;*****************
+N260 G97 S=170 LIMS=170
+N270 G0 G40 G54 X=135+15 Z=WHEEL_HEIGHT+63+5
+;*************************
+; TORCOVKA_STUPICY
+;*************************
+N390 OFFN=GLOBAL_ALLOWANCE
+N400 G1 G41 X=135+17 Z=WHEEL_HEIGHT+63+VYLET_ST F=1.4 M7 M8
+N410  X=BORE_DIAM-15 Z=WHEEL_HEIGHT+63+VYLET_ST F=1.8
+
+N400 G0 G40 Z=WHEEL_HEIGHT+63+100
+;************************************************
+;GO TO HOME POSITION
+;************************************************
+;N860 G97 M3 S200 LIMS=200
+N870 G153 D0 Z=800
+N880 G60 G153 X=1000 M9
+
+N890 M23
+N900 G97 M3 S200 LIMS=200 
+;N890 G4 F20
+N910 M9
+N920 SPOS=303
+N930    M5
+N940 G4F3
+N950 M52 
+
+N960 M56
+;*********************
+;*POSICITION N/S*
+;*********************
+N970 M0
+
+N980 M51
+N990 G97 M3 S5
+N1000 SPOS=42
+N1010 M5
+N1020 G4F3
+N1030 M52
+
+N1090 T5
+N1100 M6
+N1040 M0
+;************************************************
+;NARUGNAYA STORONA
+;************************************************
+N1050 G18 G90 G95 F=1.2
+N1060   N_PREPARE_FOR_MACHINING
+;********
+;* INIT *
+;********
+N1070 M51 
+N1080 M56
+
+N1090 T5
+N1100 M6
+N1110 DIAMOF
+
+;CALL ZERO POINT SHIFT
+N1120 G55
+N1130 DIAMOF
+N1140  G96 M42 M3 S=100
+N1150 M0
+;************************************************
+;RASTOCHKA STUPICY, 1 CUT
+;************************************************
+N1440  M3 G97 S=150 LIMS=160
+N1450 G0 G40 G95 X=BORE_DIAM-10-GLOBAL_ALLOWANCE Z=144+GLOBAL_ALLOWANCE+15
+;-----------------------------
+;N1460  GOTO RASTOCHKA_2
+;------------------------------
+N1470 G1 X=BORE_DIAM-5-GLOBAL_ALLOWANCE Z=144+GLOBAL_ALLOWANCE+2 F=1 M7 M8
+N1480  Z=-63-8 F=1.1
+
+N1490 G0 G40 X=IC(-2)
+N1500    Z=144+GLOBAL_ALLOWANCE+5
+N1510    X=BORE_DIAM-GLOBAL_ALLOWANCE
+;***********************
+N1520 RASTOCHKA_2:
+;***********************
+N1590 G97 M3 S=160
+N1600 LIMS=180
+N1610 G1 X=BORE_DIAM-GLOBAL_ALLOWANCE Z=144+GLOBAL_ALLOWANCE+2 F=1 M7
+N1620 Z=-63-9 F=1.2
+
+N1630 G0 G40 X=IC(-2)
+N1640    Z=144+GLOBAL_ALLOWANCE+15
+;************************************************
+;PATH-CTRL-MODE TO TOOL CHANGE T1
+;************************************************
+N1660 G0 G40 Z=IC(50) M9
+N1670 SUPA D0 X=1000 Z=700
+N1680 G97 M3 S=20
+N1700  SPOS=42
+N1710       M5
+N1720      G4 F3
+N1730  M52
+N2730 T125
+N2740 M6
+N2750 D1
+N2760 DIAMOF
+;*********************
+;*END OF PROGRAM*
+;*********************
+N1740 M2

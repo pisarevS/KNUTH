@@ -1,0 +1,47 @@
+
+;*********************NORMA___/******************************
+;*****************************************************************
+;KNUTH
+;Wheel: PAKISTAN, d=1092.2 mm
+;NTZ: KP-0001-18
+;last change: 11.11.2019
+;************************************************
+;PROGRAM-TYPE: Parameter Program
+;************************************************
+;* SETTING UP MACHINING VARIABLES *
+;************************************************
+;THESE THREE VALUES ARE ESSENTIAL FOR
+;ZERO POINT SHIFT CALCULATION.
+N_WHEEL_UNMACHINED=145
+N_WHEEL_MACHINED=135
+;SYMMETRIC-FACTOR FOR SHIFTING THE FINAL PART INSIDE THE RAW PART
+;<0.5 MORE ALLOWANCE FOR SIDE 1 BUT LESS FOR SIDE 2.
+;=0.5 ALLOWANCE FOR SIDE 1 AND 2 IS EQUAL.
+;>0.5 SMALLER ALLOWANCE FOR SIDE 1 BUT MORE FOR SIDE 2.
+N_SYM_FACTOR=0.5
+
+TREAD_DIAM=(1103.4/2)
+WHEEL_HEIGHT=N_WHEEL_MACHINED
+TREAD_HEIGHT_S2=72.23
+TREAD_HEIGHT_S1=WHEEL_HEIGHT-TREAD_HEIGHT_S2
+
+GLOBAL_ALLOWANCE=0
+TREAD_ALLOWANCE=0
+
+BORE_DIAM=209.4/2
+
+VYLET_ST=0
+
+STUPICA_VNUT=1.7
+STUPICA_NAR=0.2 -0.05
+
+DISK_VNUT=0.1 
+DISK_NAR=1 
+
+YABLOKO_VNUT=-0.4 
+YABLOKO_NAR=-0.4
+;******************
+;* AUX PARAMETERS *
+;******************
+
+M17

@@ -1,0 +1,37 @@
+;************************************************
+;KNUTH
+;Wheel: KP-0008-18  diam=920 mm, PROFIL EN 13715-S1002/h30/e32.5/6.7%
+;NTZ: KP-0008-18
+;last change: 12.06.2018
+;************************************************
+N_WHEEL_UNMACHINED=137
+N_WHEEL_MACHINED=136.1
+
+N_SYM_FACTOR=0.5
+
+TREAD_DIAM=(869.5)/2
+WHEEL_HEIGHT=N_WHEEL_MACHINED
+
+TREAD_HEIGHT_S2=70
+TREAD_HEIGHT_S1=WHEEL_HEIGHT-TREAD_HEIGHT_S2
+
+GLOBAL_ALLOWANCE=0
+TREAD_ALLOWANCE=0.3
+
+BORE_DIAM=(198+0.135)/2    ;(dopusk +0.046)
+
+VYLET_ST=0
+
+STUPICA_VNUT=0
+STUPICA_NAR=0
+
+DISK_VNUT=0
+DISK_NAR=0
+
+YABLOKO_VNUT=0
+YABLOKO_NAR=0
+;******************
+;* AUX PARAMETERS *
+;******************
+
+M17

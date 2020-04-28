@@ -1,0 +1,189 @@
+
+;************************************************
+;KNUT MFD
+;Wheel: BOLGARIYA, d=920 mm, PROFIL h28/E30.5/6,7%
+;NTZ: KP-0050-16 ULT23
+;last change: 13.07.2018
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "KP5016_U23_MA3_PARAMETER_SPF"
+N30 N_PREPARE_FOR_MACHINING
+;********
+;NARUGNAYA STORONA
+;************************************************
+N1050 G18 G90 G95 F=1.2
+N1060   N_PREPARE_FOR_MACHINING
+;********
+;* INIT *
+;********
+N1070 M51 
+N1080 M56
+
+N1690 T5 D1
+N1700 M6
+N1710 DIAMOF
+
+;M0
+
+;CALL ZERO POINT SHIFT
+N1720 G55
+N1770 G0 G40 X=BORE_DIAM-GLOBAL_ALLOWANCE-4 Z=163.75+40
+
+;************************************************
+N3270 M3 G97 S=170 LIMS=180
+;************************************************
+;RASTOCHKA STUPICY
+;************************************************
+;N840  M42
+N3330  M3 G97 S=180 LIMS=190
+;-----------------------------
+; GOTO RASTOCHKA_2
+;------------------------------
+;************************************************
+;RASTOCHKA, 1 CUT
+;************************************************
+N3340 G0 G40 G95 X=BORE_DIAM-GLOBAL_ALLOWANCE-5 Z=163.75+40
+N3350 G1 X=BORE_DIAM-GLOBAL_ALLOWANCE-5 Z=163.75+35 F=0.8 M7 M8
+N3360  Z=-22.75-20 F=0.8
+N3380 G0 G40 X=IC(-8) M9
+N3390    Z=163.75+40
+N3400    X=BORE_DIAM-GLOBAL_ALLOWANCE-0.5
+;************************************************
+N3410   RASTOCHKA_2:
+;************************************************
+N3420 G97 M3 S=180
+N3430 G0 G40 G95 X=BORE_DIAM-GLOBAL_ALLOWANCE Z=163.75+40 
+
+N3440 G1 X=BORE_DIAM-GLOBAL_ALLOWANCE Z=163.75+35 F=0.8 M7 M8
+N3450      X=BORE_DIAM-GLOBAL_ALLOWANCE Z=-22.75+1.5 F=0.8
+N3460 X=BORE_DIAM-GLOBAL_ALLOWANCE Z=-22.75-1.5 F=0.8 M23
+N3470 X=BORE_DIAM-GLOBAL_ALLOWANCE Z=-22.75-20 F=0.8
+
+;N3270  X=BORE_DIAM-GLOBAL_ALLOWANCE+1 F=1
+N3280 G4S4
+N3480 G0 G40 X=IC(-8)
+N3490    Z=163.75+40
+N3500 G97 M3 S=2
+;************************************************
+;GO TO HOME POSITION
+;************************************************
+N3510 G0 G40 Z=IC(50)
+N3520 SUPA D0 X=1000 Z=800 M9 M60
+N3530 G97 M3 S=2
+;N3390 M41
+N3540 G4 F1
+N3550 SPOS=303
+N3560 M5
+N3570 G4 F3
+N3580 M52
+N3590 T125
+N3600 M6
+N3610 D1
+N3620 DIAMOF
+;************************************************
+;*POSICITION N/S*
+;*********************
+N970 M0
+
+N980 M51
+N990 G97 M3 S5
+N1000 SPOS=42
+N1010 M5
+N1020 G4F3
+N1030 M52
+
+N960 M56
+;N1690 T5 D1
+N1700 M6
+N1040 M0
+;*********************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "KP5016_U23_MA3_PARAMETER_SPF"
+N30 N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+;********
+;* INIT *
+;********
+N50 T125
+N60 M6
+N70 D1
+N80 DIAMOF
+N90 G97 M42 M3 S10
+N100 M0
+N110 G97 M42 M3 S100
+N120 DIAMOF
+N130 G0 G40 G54 X=TREAD_DIAM+28+8 Z=WHEEL_HEIGHT+150+22.75+VYLET_ST
+N460 G0 G40 G603 G641 Z=WHEEL_HEIGHT+22.75+150+VYLET_ST G97 M3 M42 S=120 LIMS=120
+  
+    GOTOF TORCOVKA_STUPICY_2
+
+;************************
+;TORCOVKA STUPICY #1
+;************************
+N480 G60 X=130.25+30 Z=WHEEL_HEIGHT+27+11+VYLET_ST
+
+N490 OFFN=GLOBAL_ALLOWANCE
+N500 G96 M3 S=170 LIMS=170
+N510 G1 G41 X=130.25+20 Z=WHEEL_HEIGHT+27+5+VYLET_ST F=1 M8 
+N520  X=BORE_DIAM-10 Z=WHEEL_HEIGHT+27+5+VYLET_ST F=1
+N530 G0 G40 X=IC($P_TOOLR*(-1)) Z=IC(4+GLOBAL_ALLOWANCE)  M9
+
+N540 G0 G40 X=130.25+35
+;************************
+N550 TORCOVKA_STUPICY_2:
+;************************
+N560 G60 X=130.25+20 Z=WHEEL_HEIGHT+26+VYLET_ST
+
+N570 OFFN=GLOBAL_ALLOWANCE
+N580 G96 M3 S=115 LIMS=170
+N590 G1 G41 X=130.25+20 Z=WHEEL_HEIGHT+26+VYLET_ST F=1.5 M8 
+N600  X=BORE_DIAM+1.5 Z=WHEEL_HEIGHT+26+VYLET_ST F=0.8
+      X=BORE_DIAM Z=WHEEL_HEIGHT+26+VYLET_ST-1.5 F=0.8
+      X=BORE_DIAM-10 Z=WHEEL_HEIGHT+26+VYLET_ST-1.5 F=0.8
+N610 G0 G40 X=IC($P_TOOLR*(-1)) Z=IC(10+GLOBAL_ALLOWANCE)  M9
+
+N620 G0 G40 X=130.25+35 M3 G97 S=1
+
+;GO TO HOME POSITION
+;************************************************
+N1430 G0 G40 G603 G641 ADISPOS=5 OFFN=0 
+N1450  G153 D0 Z=800
+M3 G97 S=10 LIMS=10
+N1460  G60 G153 X=1000 
+;************************************************
+;MACHINING CH1 FINISHED, WAIT FOR FINISHING CH2
+;************************************************;
+N1650 G18 G90 G95 F=1.2
+
+N1660   N_PREPARE_FOR_MACHINING
+;********
+;* INIT *
+;********
+N1670 M51 
+N1680 M56
+
+
+N920 SPOS=42
+N930    M5
+N940 G4F3
+N950 M52 
+N3590 T5
+N3600 M6
+N3610 D1
+N3620 DIAMOF
+
+;N960 M56
+
+;*********************
+;*END OF PROGRAM*
+;*********************
+N3630 M2

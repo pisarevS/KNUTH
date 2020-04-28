@@ -1,0 +1,70 @@
+;************************************************
+;KNUT MFD
+;Wheel: BOLGARIYA, d=920 mm, PROFIL h28/E30.5/6,7%
+;NTZ: KP-0086-15
+;last change: 13.07.2018
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "KP0086_15_MA4_PARAMETER_SPF"
+N30 N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+;********
+;* INIT *
+;********
+N50 T5
+N60 M6
+N70 D1
+N80 DIAMOF
+N90 G97 M41 M3 S=10
+N100 M0
+N110 DIAMOF
+N120 G55
+;****************
+;************************************************
+;RASTOCHKA STUPICY
+;************************************************
+N840  M42
+N3120  M3 G97 S=180 LIMS=185
+;************************************************
+N3220 G0 G40 G95 X=BORE_DIAM-GLOBAL_ALLOWANCE-3 Z=130.75+GLOBAL_ALLOWANCE+15 
+
+N3230 G1 X=BORE_DIAM-GLOBAL_ALLOWANCE-3 Z=130.75+GLOBAL_ALLOWANCE F=1 M7 M8
+N3240  X=BORE_DIAM-GLOBAL_ALLOWANCE-3 Z=-55.25+1.5 F=0.9
+N3250  X=BORE_DIAM-GLOBAL_ALLOWANCE-3 Z=-55.25-1.5 F=0.4 M23
+N3260  X=BORE_DIAM-GLOBAL_ALLOWANCE-3 Z=-55.25-5 F=1.2
+
+;N3270  X=BORE_DIAM-GLOBAL_ALLOWANCE+1 F=1
+;N3280 G4S4
+N3290 G0 G40 X=IC(-8)
+N3300    Z=130.75+GLOBAL_ALLOWANCE+5
+;N3310    X=BORE_DIAM-GLOBAL_ALLOWANCE+1
+
+;N3320 G1 X=BORE_DIAM-GLOBAL_ALLOWANCE+1 Z=130.75+GLOBAL_ALLOWANCE+0.4 F=1
+;N3330  X=BORE_DIAM-GLOBAL_ALLOWANCE Z=130.75+GLOBAL_ALLOWANCE+0.3 F=0.5
+;N3340 G4S2
+N3350 G97 M3 S=200
+;************************************************
+;GO TO HOME POSITION
+;************************************************
+N3360 G0 G40 Z=IC(50)
+N3370 SUPA D0 X=1000 Z=800 M9
+N3380 G97 M3 S=20
+;N3390 M41
+N3400 G4 F0.5
+;N3410 SPOS=116
+N3420 M5
+N3430 G4 F3
+;N3440 M52
+N3570 T222
+N3580 M6
+N3590 D1
+N3600 DIAMOF
+;*********************
+;*END OF PROGRAM*
+;*********************
+N3450 M2

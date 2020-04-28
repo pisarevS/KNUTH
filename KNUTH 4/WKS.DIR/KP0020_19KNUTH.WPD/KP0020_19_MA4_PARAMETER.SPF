@@ -1,0 +1,39 @@
+
+
+;************************************************
+;KNUTH
+;Wheel: KP-0020-19  diam=860 mm
+;NTZ: KP-0020-19 
+;last change: 14.01.2020
+;************************************************
+N_WHEEL_UNMACHINED=140
+N_WHEEL_MACHINED=130
+
+N_SYM_FACTOR=0.5
+
+TREAD_DIAM=(860)/2
+WHEEL_HEIGHT=N_WHEEL_MACHINED
+
+TREAD_HEIGHT_S2=70
+TREAD_HEIGHT_S1=WHEEL_HEIGHT-TREAD_HEIGHT_S2
+
+GLOBAL_ALLOWANCE=0
+TREAD_ALLOWANCE=0.3
+
+  BORE_DIAM=(209+0.275)/2
+
+VYLET_ST=0
+
+STUPICA_VNUT=0
+STUPICA_NAR=0
+
+DISK_VNUT=0
+DISK_NAR=0
+
+YABLOKO_VNUT=0
+YABLOKO_NAR=0
+;******************
+;* AUX PARAMETERS *
+;******************
+
+M17

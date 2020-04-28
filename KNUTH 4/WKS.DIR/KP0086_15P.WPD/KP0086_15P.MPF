@@ -1,0 +1,241 @@
+;************************************************
+;KNUT MFD
+;Wheel:  KP-0086-15 ÑZECH 840 POD LPO
+;last change: 12.02.2018
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "KP0086_15P_MA1_PARAMETER_SPF"
+N30    N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+;********
+;* INIT *
+;********
+N50 T125
+N60 M6
+N70 D1
+N80 DIAMOF
+N90 G97 M41 M3 S35
+N100 M0
+;*****************
+;PODHOD K STUPICE
+;*****************
+N110 G97 M3 S85 LIMS=150
+N130 G0 G40 G54 X=127.336+5 Z=WHEEL_HEIGHT+55.25+VYLET_ST+GLOBAL_ALLOWANCE
+;************************
+;TORCOVKA STUPICY
+;************************
+N520 OFFN=GLOBAL_ALLOWANCE
+N1250 G1 G41 X=127.336+3 Z=WHEEL_HEIGHT+55.25+VYLET_ST F=1.8 
+N1260  X=BORE_DIAM-10 Z=WHEEL_HEIGHT+55.25+VYLET_ST F=2
+N1270 G4 S1
+N560 G0 G40 Z=WHEEL_HEIGHT+55.25+100
+
+N1120  G153 D0 Z=800 M5
+N1130  G60 G153 X=1000 M9
+;************************************************
+;MACHINING FINISHED
+;************************************************
+N1160 M9 M5
+N1170 SPOS=49
+N1180    M5
+N1190 G4F3
+N1200 M52 
+
+N1210 M56
+;*********************
+;*POSICITION N/S*
+;*********************
+N1230 M0
+
+N1240 M51
+N1260 SPOS=30
+N1270 M5
+N1280 G4F3
+N1290 M52
+
+N1310 M0
+;************************************************
+;NARUGNAYA STORONA
+;************************************************
+N1320 G18 G90 G95 F=1.2
+
+N1330  N_PREPARE_FOR_MACHINING
+;********
+;* INIT *
+;********
+N1340 M51 
+N1350    M56
+
+N1360 T125
+N1370 M6
+N1380 DIAMOF
+
+;CALL ZERO POINT SHIFT
+N1390 G55
+N1400 DIAMOF
+N1410  G97 M41 M3 S=10
+N1420 M0
+N1430  G97 M41 M3 S=70
+N1440 G0 G40 X=366.5-10 Z=WHEEL_HEIGHT+10
+
+N1450  G95 LIMS=85
+;************************************************
+;OT YABLOKA
+;************************************************
+N1910 G96 M3 S=155
+
+;GOTOF OT_YABLOKA_2
+  
+;*****************************
+;PROHOD OT YABLOKA #1
+;*****************************
+N310 OFFN=4+GLOBAL_ALLOWANCE
+N320 G1 G41 X=366.5 Z=WHEEL_HEIGHT F=1.4 M7 M8
+N330    X=366.5 Z=WHEEL_HEIGHT-21 F=1.5
+N340 G3 X=365.437 Z=108.266+5 CR=16
+N350 G1 X=345.361+2.67 Z=55.966+7+5 F=1.3
+N355 G1 X=345.361 Z=55.966+5 F=0.65
+
+N370 G0 G40 Z=WHEEL_HEIGHT+100 M9
+N380 X=366.5-10 Z=WHEEL_HEIGHT+10
+;*****************************
+   OT_YABLOKA_2:
+;*****************************
+N310 OFFN=GLOBAL_ALLOWANCE
+N320 G1 G41 X=367.5+1+YABLOKO_NAR Z=WHEEL_HEIGHT+1 F=1.5 M8
+N325  X=366.5+YABLOKO_NAR Z=WHEEL_HEIGHT-1
+N330  X=366.5+YABLOKO_NAR Z=WHEEL_HEIGHT-21 F=1.6
+N340 G3 X=365.437+YABLOKO_NAR Z=108.266+5 CR=16 F=1.6
+N350 G1 X=345.361+YABLOKO_NAR Z=55.966+DISK_NAR+5 F=1.4
+N355 G3 X=328.137 Z=43.186+DISK_NAR+5 CR=20 F=1.1
+N360 M5 
+;************************************************
+;PATH CONTROL MODE TO BOTTOM #2 INSIDE-OUTSIDE
+;************************************************
+N370 G0 G40 G603 G641 ADISPOS=25 OFFN=0
+N380    G153 Z=WHEEL_HEIGHT+200
+;************************************************
+;MOVE TO OUTER BOTTOM #2
+;************************************************
+N2170 G97 M3 M42 S=140 LIMS=140
+N2180 G60 X=128.575+25 Z=130.75+4+GLOBAL_ALLOWANCE+5
+; ***********************************************
+;TORCOVKA_STUPICY
+;***********************************************
+N2250 OFFN=GLOBAL_ALLOWANCE
+N680 G1 G41 X=122.452+10 Z=130.75+4+5 F=1 M7 M8
+N690  X=BORE_DIAM-5 Z=130.75+4+5 F=1.1
+
+N2280 G0 G40 Z=130.75+100
+N2180 G60 X=128.575+25 
+N2185     Z=130.75+1.5+GLOBAL_ALLOWANCE+5
+; ***********************************************
+;TORCOVKA_STUPICY_2
+;***********************************************
+N2250 OFFN=GLOBAL_ALLOWANCE
+N680 G1 G41 X=122.452+10 Z=130.75+5 F=1 M7 M8
+N690  X=BORE_DIAM-5 Z=130.75+5 F=1.3
+
+N2280 G0 G40 Z=130.75+100
+
+N390    X=128.575+10 
+N400  G60 Z=130.75+GLOBAL_ALLOWANCE+15
+
+;  GOTOF OT_STUPICI_2
+
+;********************************
+;PROHOD PO STUPICE #1
+;********************************
+N630 G97 M3 S=140 LIMS=140
+N620 OFFN=GLOBAL_ALLOWANCE+5
+N640 G1 G42 X=128.575-1 Z=130.75+5 F=1.1 M7 M8
+N660  X=128.575 Z=128.656+5 F=1.3
+N670 G2 X=171.436 Z=114+5 CR=70 F=1.4
+N680 G1 X=184.019+25 Z=114+5-3 F1.5
+
+
+N780 G0 G40 Z=130.75+150 M9
+;*******************
+OT_STUPICI_2:
+;*******************
+N390 G0 G40 X=128.575+10 Z=130.75+GLOBAL_ALLOWANCE+15
+
+N710 G96 S=150 LIMS=150
+N700 OFFN=GLOBAL_ALLOWANCE
+N730 G1 G42 X=128.575-0.5+STUPICA_NAR Z=130.75+5 F=1  M8
+N750  X=128.575+STUPICA_NAR Z=128.656+5 F=1.3
+N760 G2 X=171.436+STUPICA_NAR Z=114+DISK_NAR+5 CR=70 F=1.5
+N765 G1 X=184.019 Z=114+DISK_NAR+5
+N761 G97 M3 S=120 LIMS=120
+N767 G3 X=243.489 Z=90.757+DISK_NAR+5 CR=87.7 F=1.4
+N769 G1 X=274.855 Z=61.817+DISK_NAR+5
+N770 G2 X=308.249 Z=44.549+DISK_NAR+5 CR=71  F=1
+N780    X=328.137 Z=43.186+DISK_NAR+0.1+5 CR=71 F=1.3
+;************************************************
+;MOVE TO LOADING POSITION/WAIT FOR CH1
+;************************************************
+N2370 G0 G40 G603 G641 ADISPOS=25 OFFN=0
+N2380  G153 D0 Z=700
+N2390  G60 G153 X=1150 Z=1000 M60 M9
+N2400 G97 M3 S=170
+N2410 T5 D1
+N2420 M6
+N2430 DIAMOF
+;************************************************
+;RASTOCHKA STUPICY
+;************************************************
+;N840  M42
+N2440 M3 G97 S=180 LIMS=220
+;************************************************
+;RASTOCHKA, 1 CUT
+;************************************************
+N1670 G0 G40 G95 X=BORE_DIAM-GLOBAL_ALLOWANCE-8 Z=130.75+GLOBAL_ALLOWANCE+15
+
+N1690 G1 X=BORE_DIAM-GLOBAL_ALLOWANCE-5 Z=130.75+GLOBAL_ALLOWANCE+5 F=1 M7 M8
+N1730  Z=-55.25-1.5 F=1 
+N1740  Z=-55.25-10 F=1.2
+N1750 G97 S=200 LIMS=200
+N1760 G0 G40 X=IC(-8) M9
+N1770    Z=130.75+GLOBAL_ALLOWANCE+10+5
+N1780    X=BORE_DIAM-GLOBAL_ALLOWANCE-0.5
+;************************************************
+   RASTOCHKA_2:
+;************************************************
+N1850 G97 M3 S=200 LIMS=200
+N1860 G0 G40 G95 X=BORE_DIAM-GLOBAL_ALLOWANCE Z=130.75+GLOBAL_ALLOWANCE+10 
+
+N1880 G1 X=BORE_DIAM-GLOBAL_ALLOWANCE Z=130.75+GLOBAL_ALLOWANCE+5 F=1 M7 M8
+N1920  Z=-55.25-1.5 F=1.2
+N1930  Z=-55.25-12 F=1.2 M23
+N1950  X=BORE_DIAM-GLOBAL_ALLOWANCE+2.50-0.2 F=1.2
+N1960 G4S2
+
+N1970 G0 G40 X=IC(-8) 
+N1980    Z=130.75+GLOBAL_ALLOWANCE+5
+M9
+N2770 M5
+;************************************************
+;GO TO HOME POSITION
+;************************************************
+N2780 G0 G40 Z=IC(50)
+N2790 SUPA D0 X=1000 Z=800
+
+N2810  M41
+;N2410     G4 F3
+N2820  SPOS=30
+N2830       M5
+N2840      G4 F3
+N2850  M52
+N2860 T125
+N2870 M6
+N2880 D1
+N2890 DIAMOF
+;*********************
+;*END OF PROGRAM*
+;*********************
+N2900 M2

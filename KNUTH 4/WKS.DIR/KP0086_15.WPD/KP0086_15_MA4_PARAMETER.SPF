@@ -1,0 +1,37 @@
+;************************************************
+;KNUTH
+;Wheel: KP-0086-15  diam=840 mm
+;NTZ: KP-0086-15
+;last change: 17.01.2019
+;************************************************
+N_WHEEL_UNMACHINED=142
+N_WHEEL_MACHINED=135
+
+N_SYM_FACTOR=0.5
+
+TREAD_DIAM=(843)/2
+WHEEL_HEIGHT=N_WHEEL_MACHINED
+
+TREAD_HEIGHT_S2=70
+TREAD_HEIGHT_S1=WHEEL_HEIGHT-TREAD_HEIGHT_S2
+
+GLOBAL_ALLOWANCE=0
+TREAD_ALLOWANCE=0.3
+
+BORE_DIAM=(195   -0.080    )/2 ;(dopusk -0.236 -0.308)
+
+VYLET_ST=0
+
+STUPICA_VNUT=0
+STUPICA_NAR=0
+
+DISK_VNUT=0
+DISK_NAR=0
+
+YABLOKO_VNUT=0
+YABLOKO_NAR=0
+;******************
+;* AUX PARAMETERS *
+;******************
+
+M17

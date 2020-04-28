@@ -1,0 +1,39 @@
+;************************************************
+;KNUTH
+;Wheel: 1FTE423  d=850
+;NTZ: 1FTE423.1.02.001 
+;last change: 27.06.2018
+;************************************************
+       ;R2=2.2
+
+N_WHEEL_UNMACHINED=142
+N_WHEEL_MACHINED=135
+
+N_SYM_FACTOR=0.5
+
+TREAD_DIAM=(850.3)/2
+WHEEL_HEIGHT=N_WHEEL_MACHINED
+
+TREAD_HEIGHT_S2=70
+TREAD_HEIGHT_S1=WHEEL_HEIGHT-TREAD_HEIGHT_S2
+
+GLOBAL_ALLOWANCE=0
+TREAD_ALLOWANCE=0.3
+ 
+BORE_DIAM=(192.150)/2
+
+VYLET_ST=0
+
+STUPICA_VNUT=0
+STUPICA_NAR=0
+
+DISK_VNUT=0
+DISK_NAR=0
+
+YABLOKO_VNUT=0
+YABLOKO_NAR=0
+;******************
+;* AUX PARAMETERS *
+;******************
+
+M17

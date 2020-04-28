@@ -1,0 +1,83 @@
+;************************************************
+;KNUT MFD
+;Wheel: KP-0016-17 diam=915 SAUD ARABIA
+;last change: 27.02.2018
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "KP16_17_2_MA2_PARAMETER_SPF"
+N30 N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+;********
+;* INIT *
+;********
+N50 T77
+N60 M6
+N70 D1
+N80 DIAMOF
+N90 G97 M42 M3 S10
+N100 M0
+N110 G97 M42 M3 S50
+N120 DIAMOF
+;****************
+;************************************************
+;PATH-CTRL-MODE TO TOOL CHANGE T77
+;************************************************
+N2580 G0 G40 G603 G641 ADISPOS=25 OFFN=0
+N2590  G153 D0 Z=700
+N2600  G60 G153 X=1000 M9
+N2610 T77 D1
+N2620 M6
+N2630 DIAMOF
+;************************************************
+;KANAVKA, 2 CUTS
+;NOTE: R2 ALTERED TO R1.59 (=$P_TOOLR)
+;************************************************
+N2640 G0 G40 D1 X=405-$P_TOOLR-1 M8
+
+N2650 Z=WHEEL_HEIGHT+2+GLOBAL_ALLOWANCE
+
+;---CUT#1---
+N2660 G97 M3 S=60
+N2670 G1 G95 X=405-1.6 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE+0.8+1 F=5.2
+N2680      X=405-1.6 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE+1 F=1
+N2690      X=405-1.6 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE-1.6+1 F=0.15
+N2700 G4S1
+N2710 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE+1
+
+;---CUT#2---
+N2720 OFFN=0
+N2730 G1 G95 X=405-1.6 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE+0.8 F=5.2
+N2740     X=405-1.6 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE F=1
+N2750     X=405-1.6 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE-1.6 F=0.15
+N2760 G4S1
+N2770 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE
+
+N2780 G0 G40 Z=IC(GLOBAL_ALLOWANCE+5)
+N2790 G97 M3 S=147 LIMS=152
+;************************************************
+N2800 G0 G40 G603 G641 ADISPOS=25 OFFN=0
+N2810  G153 D0 Z=700
+N2820  G60 G153 X=1000 M9
+;************************************************
+;PATH-CTRL-MODE TO TOOL CHANGE T1
+;************************************************
+N3210 G0 G40 Z=IC(50)
+N3220 SUPA D0 X=1000 Z=800
+N3230 G97 M3 S=2
+N3250 G4 F1
+N3260 SPOS=303
+N3270 M5
+N3280 G4 F3
+N3290 M52
+N3320 D1
+N3330 DIAMOF
+
+;*********************
+;*END OF PROGRAM*
+;*********************
+N3340 M2

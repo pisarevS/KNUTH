@@ -1,0 +1,178 @@
+;************************************************
+;KNUT MFD
+;Wheel: KP-0013-15  diam=920 mm CHISTOVAJA RASTOCHKA
+;last change: 29.12.2017
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N15 CALL "KP0013_15_MA4_PARAMETER_SPF"
+N20    N_PREPARE_FOR_MACHINING
+;************************************************
+;********
+;* INIT *
+;********
+N25 M51 M56
+
+N30 T22
+N35 M6
+N40 DIAMOF
+
+;CALL ZERO POINT SHIFT
+N45 G55
+N50 DIAMOF
+;******************
+;PODGOTOVKA KANAVKI
+;******************
+N55 M42
+N60 G97 M4 S=100
+N65 G0 G40 G95 X=-BORE_DIAM+30 Z=163.75+10
+
+N70 G1 G42 X=-BORE_DIAM+4.05+5 Z=86.136+1+R2+1 F=2.3 M8
+N75 G1 X=-BORE_DIAM+4.05 Z=86.136+R2 F=0.3
+N80 G2 X=-BORE_DIAM+0.3 Z=77.258+R2 CR=12.5 F=0.4 M7 M8
+
+N85 G1 X=-BORE_DIAM+0.3 Z=75.456+R2 F=0.3
+N90 G2 X=-BORE_DIAM+0.3 Z=68.044+R2 CR=12.5 F=0.3
+
+N95 G1 X=-BORE_DIAM+0.3 Z=66.242+R2 F=0.4
+N100 G2 X=-BORE_DIAM+4.05 Z=57.365+R2 CR=12.5 F=0.45
+
+N105 G0 G40 X=IC(20) M5
+
+N110 G0 G40 Z=163.75+50
+N115 G60 G153 D0 X=1000 Z=700 M9
+;***************************************
+N120 T51 D1
+N125 M6
+N130 DIAMOF
+;************************************************
+;CHERNOVAYA RASTOCHKA STUPICY
+;************************************************
+N135  M3 G97 S=140 LIMS=185
+;-----------------------------
+N140  GOTO CHERN_RASTOCHKA_2
+;************************************************
+;CHERN_RASTOCHKA, 1 CUT
+;************************************************
+N145 G0 G40 G95 X=BORE_DIAM-GLOBAL_ALLOWANCE-8 Z=163.75+GLOBAL_ALLOWANCE+15
+
+N150 G1 X=BORE_DIAM-GLOBAL_ALLOWANCE-8 Z=163.75+GLOBAL_ALLOWANCE F=1 M7 M8
+N155  Z=-22.75-1.5 F=0.8
+N160  Z=-22.75-10 F=1.2
+
+N165 G0 G40 X=IC(-8) M9
+N170    Z=163.75+GLOBAL_ALLOWANCE+10
+N175    X=BORE_DIAM-GLOBAL_ALLOWANCE-0.6
+;************************************************
+N180   CHERN_RASTOCHKA_2:
+;************************************************
+N185 G97 M3 S=150
+N190 G0 G40 G95 X=BORE_DIAM-GLOBAL_ALLOWANCE-0.5 Z=163.75+GLOBAL_ALLOWANCE+15
+
+N195 G1 X=BORE_DIAM-GLOBAL_ALLOWANCE-0.3 Z=163.75+GLOBAL_ALLOWANCE+10 F=0.4 M7 M8
+
+
+
+;*************************************************************
+N200     X=BORE_DIAM-GLOBAL_ALLOWANCE-0.3-0.112 Z=-22.75-10 F=0.5
+;*************************************************************
+
+
+
+
+
+
+N205 G0 G40 X=IC(-8)
+N210    Z=163.75+GLOBAL_ALLOWANCE+5
+
+N215 G0 G40 Z=IC(50)
+
+N220 G60 G153 D0 X=1000 Z=700 M9
+;************************************************
+N225 T56
+N230 M6
+N235 DIAMOF
+;*************************
+;RADIUSA
+;*************************
+N240 G97 M3 S=170
+N245 G0 G40 G95 X=BORE_DIAM+1 Z=163.75+GLOBAL_ALLOWANCE+10
+
+N250 G1 G41 X=BORE_DIAM+1.5+1 Z=163.75+0.4 F=1 M7 M8
+N255 G1 X=BORE_DIAM+1.5 Z=163.75+0.35 F=1
+N260 G2 X=BORE_DIAM-0.03 Z=162.25+0.25 CR=1.5 F=0.1
+N265 G3 X=BORE_DIAM-0.5-0.03 Z=160.591+0.25 CR=3
+N270 G1 X=BORE_DIAM-0.5-0.03 Z=77.609+R2 F=7
+N275 G3 X=BORE_DIAM-0.03 Z=75.95+R2 CR=3 F=0.1
+N280 G2 X=BORE_DIAM+0.2-0.03-0.02 Z=74.55+R2 CR=5
+N285 G3 X=BORE_DIAM+0.2-0.03-0.02 Z=68.95+R2 CR=10
+N290 G2 X=BORE_DIAM-0.03-0.04 Z=67.55+R2 CR=5
+N295 G3 X=BORE_DIAM-0.5-0.03 Z=65.891+R2 CR=3
+N300 G1 X=BORE_DIAM-0.5-0.03+0.07 Z=-18.092-0.15 F=7
+N305 G3 X=BORE_DIAM-0.065+0.07 Z=-19.75-0.15 CR=3 F=0.1
+N310 G2 X=BORE_DIAM+3-0.065+0.07 Z=-22.75-0.15 CR=3
+
+N315 G0 G40 X=IC(-6) Z=-22.75-6 M9
+N320    Z=163.75+GLOBAL_ALLOWANCE+20
+N325 G60 G153 D0 X=1000 Z=700 M9
+;***************************************
+N330 T52 D1
+N335 M6
+N340 DIAMOF
+;***************************************
+N345 GOTOF FINISHNAYA_RASTOCHKA
+
+N350 G97 M3 S=220
+N355 G0 G40 G95 X=BORE_DIAM-GLOBAL_ALLOWANCE-2 Z=163.75+GLOBAL_ALLOWANCE+15
+
+N360 G1 G41 X=BORE_DIAM-0.3 Z=163.75+10 F=0.7 M7 M8
+;N1880 G1 X=BORE_DIAM-0.3 Z=163.75 F=0.2
+N365 G1 X=BORE_DIAM-0.3-0.087 Z=-22.75-10 F=0.15
+
+N370 G0 G40 X=IC(-5) Z=-22.75-5 M9
+N375    Z=163.75+GLOBAL_ALLOWANCE+10
+;****************************************
+N380 FINISHNAYA_RASTOCHKA:
+;****************************************
+N385 G97 M3 S=220
+N390 G0 G40 G95 X=BORE_DIAM-GLOBAL_ALLOWANCE+2 Z=163.75+GLOBAL_ALLOWANCE+15
+N395 G1 G41 X=BORE_DIAM Z=163.75+10 F=0.7 M7 M8
+
+
+
+
+
+
+
+;*************************************************
+N400   G1 X=BORE_DIAM-0.112    Z=-22.75-10 F=0.15
+;*************************************************
+
+
+
+
+
+N405 G0 G40 X=IC(-5) Z=-22.75-5 M23
+N410    Z=163.75+GLOBAL_ALLOWANCE+20
+;********************
+N415 G97 M3 S=20 LIMS=200 M23
+;************************************************
+N420 SUPA D0 X=1000 Z=800
+N425  M41 M9 M5
+N430  SPOS=30
+N435       M5
+N440      G4 F3
+N445 M0
+N450  M52
+
+N455 T22
+N460 M6
+N465 D1
+N470 DIAMOF
+;*********************
+;*END OF PROGRAM*
+;*********************
+N475 M2

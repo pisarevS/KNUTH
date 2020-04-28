@@ -1,0 +1,93 @@
+;************************************************
+;KNUT MFD
+;Wheel: KP-0028-17,  diam920
+;last change: 25.10.2017
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "KP0028_17_MA4_PARAMETER_SPF"
+N30    N_PREPARE_FOR_MACHINING
+;************************************************
+;********
+;* INIT *
+;********
+N40 M51 M56
+
+N50 T51
+N60 M6
+N70 DIAMOF
+
+;CALL ZERO POINT SHIFT
+N80 G55
+N90 DIAMOF
+;************************************************
+;CHERNOVAYA RASTOCHKA STUPICY
+;************************************************
+N100 M42
+N430 M3 G97 S=150 LIMS=185
+N540 G0 G40 G95 X=BORE_DIAM-GLOBAL_ALLOWANCE+0.5 Z=159+GLOBAL_ALLOWANCE+15 
+
+N550 G1 X=BORE_DIAM-GLOBAL_ALLOWANCE-0.3 Z=159+GLOBAL_ALLOWANCE+10 F=0.4 M7 M8
+N560 X=BORE_DIAM-GLOBAL_ALLOWANCE-0.3-0.088 Z=-23-10 F=0.4
+
+N570 G0 G40 X=IC(-8)
+N580    Z=159+GLOBAL_ALLOWANCE+5
+
+N590 G0 G40 Z=IC(50)
+
+N600 G60 G153 D0 X=1000 Z=700 M9
+;***************************************
+N800 T56 D1
+N810 M6
+N820 DIAMOF
+;*************************
+;RADIUSA
+;*************************
+N830 G97 M3 S=170
+N840 G0 G40 G95 X=BORE_DIAM+3 Z=159+GLOBAL_ALLOWANCE+10
+
+N850 G1 G41 X=BORE_DIAM+1.5+1 Z=159+0.05 F=1 M7 M8
+N860 G1 X=BORE_DIAM+1.5 Z=159-0.04 F=1
+N870 G2 X=BORE_DIAM-0.02 Z=157.5-0.04 CR=1.5 F=0.1
+N880 G3 X=BORE_DIAM-0.5-0.02 Z=155.842-0.04 CR=3
+N950 G1 X=BORE_DIAM-0.5-0.03-0.04 Z=-19.842+0.07 F=7
+N960 G3 X=BORE_DIAM-0.065+0.003 Z=-21.5+0.07 CR=3 F=0.1
+N980 G2 X=BORE_DIAM+1.5-0.065+0.003 Z=-23+0.07 CR=1.5
+
+N990 G0 G40 X=IC(-6) Z=-23-6 M9
+N1000    Z=159+GLOBAL_ALLOWANCE+30
+N790 G60 G153 D0 X=1000 Z=700 M9
+;***************************************
+N610 T52 D1
+N620 M6
+N630 DIAMOF
+;***************************************
+N720  FINISHNAYA_RASTOCHKA:
+;****************************************
+N730 G97 M3 S=200
+N740 G0 G40 G95 X=BORE_DIAM-GLOBAL_ALLOWANCE+2 Z=159+GLOBAL_ALLOWANCE+15
+
+N750 G1 G41 X=BORE_DIAM Z=159+10 F=0.7 M7 M8
+N760 G1 X=BORE_DIAM-0.088 Z=-23-10 F=0.11
+
+N770 G0 G40 X=IC(-5) Z=-23-5 M23
+N780    Z=159+GLOBAL_ALLOWANCE+30
+
+N1010 G97 M3 S=200 LIMS=200
+;************************************************
+N1020 SUPA D0 X=1000 Z=800
+N1030 G4 F=10
+N1040 G97 M3 S=30 M9
+N1050  M41
+N1060  SPOS=30
+N1070 M0
+N1080       M5
+N1090      G4 F3
+N1100  M52
+;*********************
+;*END OF PROGRAM*
+;*********************
+N1110 M2

@@ -1,0 +1,119 @@
+;************************************************
+;KNUT MFD
+;Wheel: KP0059-05A J-36'' USA
+;last change: 27.09.2019 by S. PISAREV
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "KP0059_05A_MA1_PARAMETER_SPF"
+N30 N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+;********
+;* INIT *
+;********
+N50 T125
+N60 M6
+N70 D1
+N80 DIAMOF
+N90 G97 M42 M3 S50
+N100 M0
+N110 DIAMOF
+N120 G0 G40 G507 X=TREAD_DIAM+27.597+10 Z=WHEEL_HEIGHT+63.5+150
+  G97 M3 M42 S=120 LIMS=120
+N410 G0 G40 G603 G641 Z=WHEEL_HEIGHT+63.5+150 M8
+;************************
+;TORCOVKA STUPICY
+;************************
+
+N420 G60 X=147.3+30 Z=WHEEL_HEIGHT+63.5+VYLET_ST
+
+N440 G96 M3 S=140 LIMS=150
+N450 G1 G41 X=147.3+20 Z=WHEEL_HEIGHT+63.5+VYLET_ST F=1.1 M8 
+N460  X=BORE_DIAM-10 Z=WHEEL_HEIGHT+63.5+VYLET_ST F=0.65 
+N470 G0 G40 X=IC($P_TOOLR*(-1)) Z=IC(10)  M9
+
+N480 G0 G40 X=147.3+30
+
+N490 G96 M3 S=165 LIMS=200
+
+;************************************************
+;MOVE TO LOADING POSITION/WAIT FOR CH1
+;************************************************
+N1970 G0 G40 G603 G641 ADISPOS=25 OFFN=0
+N1980  G153 D0 Z=700
+N1990  G60 G153 X=1000 M9
+N2000 T5 D1
+N2010 M6
+N2020 DIAMOF
+;************************************************
+;RASTOCHKA STUPICY
+;************************************************
+;N840  M42
+N2030  M3 G97 S=170 LIMS=220
+;************************************************
+;RASTOCHKA, 1 CUT
+;************************************************
+N2040 G0 G40 G95 X=BORE_DIAM-11 Z=WHEEL_HEIGHT+63.5+15
+;---------------------------
+;  GOTO RASTOCHKA_2
+;N2050  GOTO RASTOCHKA_3 
+;--------------------------
+;N2060 G1 X=BORE_DIAM-11 Z=WHEEL_HEIGHT+63.5 F=1 M7 M8
+;N2070  Z=WHEEL_HEIGHT+63.5-200 F=0.9
+
+;PATH-CTRL-MODE TO CUT#2
+;N2080 G0 G40 G603 G641 ADISPOS=10
+;N2090  X=IC(-5) Z=IC(5)
+;N2100  Z=WHEEL_HEIGHT+63.5+15
+;N2110  G60 X=BORE_DIAM-5
+;N2120  STOPRE
+;************************************************
+N2130  RASTOCHKA_2:
+;************************************************
+N2140 M3 G97 S=170
+N2150 G1 X=BORE_DIAM-7 Z=WHEEL_HEIGHT+63.5+1 F=0.6 M8 
+N2180  Z=WHEEL_HEIGHT+63.5-200  
+
+;PATH-CTRL-MODE TO CUT#3
+N2190 G0 G40 G603 G641 ADISPOS=10
+N2200  X=IC(-7) Z=IC(5)
+N2210  Z=WHEEL_HEIGHT+63.5+15
+N2220  G60 X=BORE_DIAM
+;************************************************
+N2230    RASTOCHKA_3:
+;************************************************
+N2240 M3 G97 S=170
+N2250 G1 X=BORE_DIAM Z=WHEEL_HEIGHT+63.5+1 F=0.8 M8
+N2270  Z=WHEEL_HEIGHT+63.5-150 
+N2270  Z=WHEEL_HEIGHT+63.5-190  M23  
+N2270  Z=WHEEL_HEIGHT+63.5-206
+N2350  X=BORE_DIAM+6 F=0.5  
+N2360 G4 S2
+
+;PATH-CTRL-MODE TO CUT#3
+N2190 G0 G40 G603 G641 ADISPOS=10
+N2200  X=IC(-9) Z=IC(5)
+N2210  Z=WHEEL_HEIGHT+63.5+15  M9 G97 M3 S=20
+;************************************************
+N2370 G0 G40 Z=IC(50) 
+N2380 SUPA D0 X=1000 Z=800
+N2390 G97 M3 S=20
+N2400 M42
+;N2410 G4 F3
+N2420 SPOS=42
+N2430 M5
+N2440 G4 F3
+N2450 M52
+N2490 T125
+N2500 M6
+N2510 D1
+N2520 DIAMOF
+
+;*********************
+;*END OF PROGRAM*
+;*********************
+N2460 M2
