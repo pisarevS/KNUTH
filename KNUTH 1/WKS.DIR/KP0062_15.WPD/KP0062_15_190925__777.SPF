@@ -1,0 +1,235 @@
+;************************************************
+;KNUT MFD
+;Wheel: KP-0062-15, d=928 mm (OBTOCHKA STUPICY S V/S I N/S+RASTOCHKA)
+;(+ ot jabloka)
+;last change: 25.09.2019
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "KP0062_15_MA1_PARAMETER_SPF"
+N30    N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+;********
+;* INIT *
+;********
+N50 T125
+N60 M6
+N70 D1
+N80 DIAMOF
+N90 G97 M42 M3 S=63
+N100 M0
+;*****************
+;PODHOD K STUPICE
+;*****************
+N260 G97 S=170 LIMS=170
+N270 G0 G40 G54 X=125.916+15 Z=WHEEL_HEIGHT+24.5+50    ;+5
+
+GOTOF OT_STUPICY
+;*************************
+; TORCOVKA_STUPICY
+;*************************
+N390 OFFN=GLOBAL_ALLOWANCE+4
+N400 G1 G41 X=125.916+17 Z=WHEEL_HEIGHT+24.5+VYLET_ST F=1.4 M7 M8
+N410  X=BORE_DIAM-15 Z=WHEEL_HEIGHT+24.5+VYLET_ST F=1.4
+
+N400 G0 G40 Z=WHEEL_HEIGHT+24.5+100
+;************************************************
+ OT_STUPICY:
+;************************************************
+N410    X=BORE_DIAM-20
+N420    Z=WHEEL_HEIGHT+24.5+10
+N430 G96 M3 S=170 LIMS=140
+
+N435 OFFN=GLOBAL_ALLOWANCE
+N440 G1 G42 X=BORE_DIAM-10 Z=WHEEL_HEIGHT+24.5+VYLET_ST F=1.2 M7 M8
+N450 X=125.916+STUPICA_VNUT Z=WHEEL_HEIGHT+24.5+VYLET_ST F=1.6
+N460 G3 X=126.317+STUPICA_VNUT Z=WHEEL_HEIGHT+21.969+VYLET_ST CR=3 F=1.2
+N470 G1 X=134.467+STUPICA_VNUT Z=WHEEL_HEIGHT-29.491  F=1.2
+N480 G2 X=167.555+STUPICA_VNUT Z=WHEEL_HEIGHT-57.75+DISK_VNUT+2 CR=33.5 F=1.2
+
+N510 G0 G40 G603 G641 Z=WHEEL_HEIGHT+200
+
+N310 G0 G40 X=396.429-10 Z=WHEEL_HEIGHT+5
+
+;*******************************
+;PODHOD K YABLOKU
+;*******************************
+N280 G96 M3 S=170 
+N290 G0 G40 X=396.429-10
+;************************************************
+;OT_YABLOKA_1
+;************************************************
+N300 OFFN=3+GLOBAL_ALLOWANCE
+N310 G1 G41 X=396.429+0.3+YABLOKO_VNUT Z=WHEEL_HEIGHT F=0.9 M7 M8
+N320  X=386.054+YABLOKO_VNUT Z=WHEEL_HEIGHT-38.720 F=1.2
+N350 G3 X=363.436 Z=WHEEL_HEIGHT-57.203+DISK_VNUT CR=25 F=1.3
+N370 M5  M9
+
+N510 G0 G40 G603 G641 Z=WHEEL_HEIGHT+24.50+150 G97 M3 M42 S=170
+
+;************************************************
+;GO TO HOME POSITION
+;************************************************
+N840 G0 G40 Z=WHEEL_HEIGHT+150
+N860 G97 M3 S200 LIMS=200
+N870 G153 D0 Z=800
+N880 G60 G153 X=1000 M9
+
+N890 M23
+N900 G97 M3 S200 LIMS=200 
+;N890 G4 F20
+N910 M9
+N920 SPOS=133
+N930    M5
+N940 G4F3
+N950 M52 
+
+N960 M56
+MSG("OBRABOTKA V/S ZAVERSHENA")
+
+
+;*********************
+;*POSICITION N/S*
+;*********************
+M0
+
+M51
+G97 M3 S5
+SPOS=235
+M5
+G4F3
+M52
+
+MSG("ZAGRUZKA N/S")
+M0
+;************************************************
+;NARUGNAYA STORONA
+;************************************************
+N10 G18 G90 G95 F=1.2
+   N_PREPARE_FOR_MACHINING
+;********
+;* INIT *
+;********
+N20 M51 
+    M56
+
+N30 T125
+N40 M6
+N50 DIAMOF
+
+;CALL ZERO POINT SHIFT
+N60 G55
+DIAMOF
+
+N80  G97 M42 M3 S=150
+N90  G95 LIMS=150
+
+GOTOF OT_STUPICY
+
+N70 G0 G40 X=125.916+15 Z=178.5+10
+;*************************
+; TORCOVKA_STUPICY
+;*************************
+N390 OFFN=GLOBAL_ALLOWANCE+4
+N400 G1 G41 X=125.916+17 Z=178.5 F=1.4 M7 M8
+N410  X=BORE_DIAM-15 Z=178.5 F=1.4
+
+;************************************************
+  OT_STUPICY: 
+;************************************************
+N400 G0 G40 Z=178.5+100
+N410   X=BORE_DIAM-20
+N420   Z=178.5+10
+
+N600 G96 M3 S=130 LIMS=110
+N740 OFFN=GLOBAL_ALLOWANCE
+N750 G1 G42 X=BORE_DIAM-20 Z=178.5 F=1.3 M7M8
+N760 X=123.354+STUPICA_NAR Z=178.5 F=1.5
+N770 G3 X=126.317+STUPICA_NAR Z=175.969 CR=3 F=0.7
+N780 G1 X=135.418+STUPICA_NAR Z=118.509 F=1.5
+N790 G2 X=168.505 Z=90.25+DISK_NAR+3 CR=33.5
+
+;************************************************
+;OT YABLOKA
+;************************************************
+;N2110 G96 M3 S=170
+;N2120 G0 G40 Z=WHEEL_HEIGHT+100
+;N2125 G0 G40 X=397.763-10 Z=WHEEL_HEIGHT+10
+;N2130 OFFN=3.9+GLOBAL_ALLOWANCE
+;N2140 G1 G41 X=397.763+YABLOKO_NAR+0.1 Z=WHEEL_HEIGHT+0.1 F=1 M7 M8
+;N2140    X=397.763+YABLOKO_NAR Z=WHEEL_HEIGHT F=0.8
+;N2150    X=391.928+YABLOKO_NAR Z=111.409 F=0.8
+;N2170 G3 X=365.256+YABLOKO_NAR Z=90.834+DISK_NAR CR=25 F=0.6
+
+;************************************************
+;PATH-CTRL-MODE TO TOOL CHANGE T5
+;************************************************
+N510 G0 G40 G603 G641 ADISPOS=25 OFFN=0
+N520  G153 D0 Z=700
+N530  G153 G60 X=1000 M60 M9
+N540 T5
+N550 M6
+N560 DIAMOF
+;************************************************
+;RASTOCHKA STUPICY
+;************************************************
+;N1430  M42
+N1440  M3 G97 S=200 LIMS=200
+;************************************************
+;RASTOCHKA, 1 CUT
+;************************************************
+N1450 G0 G40 G95 X=BORE_DIAM-10-GLOBAL_ALLOWANCE Z=178.5+GLOBAL_ALLOWANCE+15 M8
+;-----------------------------
+;N1460  GOTO RASTOCHKA_2
+;------------------------------
+N1470 G1 X=BORE_DIAM-7-GLOBAL_ALLOWANCE Z=178.5+5+GLOBAL_ALLOWANCE F=1 M7
+N1480  Z=-24.5-6 F=0.6
+
+N1490 G0 G40 X=IC(-2)
+N1500    Z=178.5+GLOBAL_ALLOWANCE+5
+N1510    X=BORE_DIAM-0.4-GLOBAL_ALLOWANCE
+;***********************
+N1520 RASTOCHKA_2:
+;***********************
+N1530 G97 M3 S=210
+N1540 LIMS=210
+N1550 G1 X=BORE_DIAM-0.4-GLOBAL_ALLOWANCE Z=178.5+GLOBAL_ALLOWANCE F=1 M7
+N1560 Z=-24.5-6 F=0.75
+
+N1570 G0 G40 X=IC(-2)
+N1580    Z=178.5+GLOBAL_ALLOWANCE+5
+;***********************
+;REZ'BA
+;***********************
+N1590 G97 M3 S=210
+N1600 LIMS=210
+N1610 G1 X=BORE_DIAM-GLOBAL_ALLOWANCE Z=178.5+GLOBAL_ALLOWANCE+1 F=1 M7
+N1620 Z=-24.5-5 F=5 M23
+N1625 G1 X=IC(1.5)
+      G4 S2
+N1630 G0 G40 X=IC(-3)
+N1640    Z=178.5+GLOBAL_ALLOWANCE+15
+N1650 M9
+;************************************************
+;PATH-CTRL-MODE TO TOOL CHANGE T1
+;************************************************
+N1660 G0 G40 Z=IC(50)
+N1670 SUPA D0 X=1000 Z=700
+N1680 G97 M3 S=20
+N1690  M42
+N1700  SPOS=118
+N1710       M5
+N1720      G4 F3
+N1730  M52
+N3570 T125
+N3580 M6
+N3590 D1
+N3600 DIAMOF
+;*********************
+;*END OF PROGRAM*
+;*********************
+N1030 M2
