@@ -1,0 +1,46 @@
+;************************************************
+;KNUTH Verturn 1600 CNC
+;Wheel      : D=928 mm, Bulgary
+;Drawing-No.: KP-0062-15
+;last change: 22.06.2020
+;************************************************
+;Program-type: Parameter Program
+;Version     : 1.2
+;************************************************
+
+;**********************************
+;*Setting up machining variables*
+;**********************************
+;THESE THREE VALUES ARE ESSENTIAL FOR
+;ZERO POINT SHIFT CALCULATION.
+N_WHEEL_UNMACHINED=145.6
+N_WHEEL_MACHINED=145.1
+;Symmetric-factor for shifting the final part inside the raw part
+;<0.5 MORE ALLOWANCE FOR SIDE 1 BUT LESS FOR SIDE 2.
+;=0.5 ALLOWANCE FOR SIDE 1 AND 2 IS EQUAL.
+;>0.5 SMALLER ALLOWANCE FOR SIDE 1 BUT MORE FOR SIDE 2.
+N_SYM_FACTOR=0.5
+
+TREAD_DIAM=(928.0/2)
+WHEEL_HEIGHT=N_WHEEL_MACHINED
+TREAD_HEIGHT_S2=74
+TREAD_HEIGHT_S1=WHEEL_HEIGHT-TREAD_HEIGHT_S2
+
+GLOBAL_ALLOWANCE=0
+TREAD_ALLOWANCE=0.6
+
+BORE_DIAM=153.5/2
+
+VYLET_ST=0
+STUPICA_VNUT=0
+STUPICA_NAR=0
+
+DISK_VNUT=0
+DISK_NAR=0
+
+YABLOKO_VNUT=0
+YABLOKO_NAR=0
+;******************
+;*Aux parameters*
+;******************
+M17

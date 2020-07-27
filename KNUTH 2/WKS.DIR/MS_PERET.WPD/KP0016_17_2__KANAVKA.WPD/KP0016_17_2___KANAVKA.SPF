@@ -1,0 +1,80 @@
+;**************************NORMA___10/13**************************
+;*********BOLSHOY___BOLT___NA___4___OTVERSTIE_______31MM**********
+;KNUT MFD
+;Wheel: KP-0016-17 diam=915 SAUD ARABIA
+;last change: 27.02.2018
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+;************************************************
+;NARUGNAYA STORONA
+;************************************************
+N1130 G18 G90 G95 F=1.2
+N20 CALL "KP16_17_2_MA2_PARAMETER_SPF"
+N1140   N_PREPARE_FOR_MACHINING
+;********
+;* INIT *
+;********
+N1150 M51 
+N1160 M56
+
+N1170 T77
+N1180 M6
+N1190 DIAMOF
+
+;CALL ZERO POINT SHIFT
+N1200 G55
+N1210 DIAMOF
+N1220  G97 M42 M3 S=25
+N1230 M0
+N1220  G97 M42 M3 S=70
+;************************************************
+;KANAVKA, 2 CUTS
+;NOTE: R2 ALTERED TO R1.59 (=$P_TOOLR)
+;************************************************
+N1320 G0 G40 D1 X=405-$P_TOOLR-1 M8
+
+N1340 Z=WHEEL_HEIGHT+2+GLOBAL_ALLOWANCE
+
+;---CUT#1---
+N1350 G97 M3 S=70
+N1460 G1 G95 X=405-1.6 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE+0.8+1 F=5.2
+N1465      X=405-1.6 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE+1 F=1
+N1467      X=405-1.6 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE-1.6+1 F=0.15
+N1500 G4S1
+N1510 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE+1
+
+;---CUT#2---
+N1440 OFFN=0
+N1460 G1 G95 X=405-1.6 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE+0.8 F=5.2
+N1465     X=405-1.6 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE F=1
+N1467     X=405-1.6 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE-1.6 F=0.15
+N1500 G4S1
+N1510 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE M23
+N920 G97 M3 S150 LIMS=150
+
+N1530 G0 G40 Z=IC(GLOBAL_ALLOWANCE+5)
+;************************************************
+N1970 G0 G40 G603 G641 ADISPOS=25 OFFN=0
+N1980  G153 D0 Z=700
+N1990  G60 G153 X=1000
+N2410 G4 F5
+;;;N2350 G4S1
+;;;N2360 G97 M3 S=120
+;************************************************
+;PATH-CTRL-MODE TO TOOL CHANGE T1
+;************************************************
+N2370 G0 G40 Z=IC(50)
+N2380 SUPA D0 X=1000 Z=800
+N2390 G97 M3 S=20
+N2400 M42
+N2410 G4 F3 M9
+N2420 SPOS=37
+N2430 M5
+N2440 G4 F3
+N2450 M52
+;*********************
+;*END OF PROGRAM*
+;*********************
+N2500 M2

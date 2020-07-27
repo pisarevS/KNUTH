@@ -1,0 +1,128 @@
+;************************************************
+;KNUTH Verturn 1600 CNC
+;Wheel      : D=928 mm, Bulgary
+;Drawing-No.: KP-0062-15
+;last change: 22.06.2020
+;************************************************
+;Program-type: Machining Program
+;Machining side: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "KP0062_15_MA2_PAR_SPF"
+N30 N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+;********
+;* INIT *
+;********
+N50  T20
+N60  M6
+N70  D1
+N80  DIAMOF
+N90  G97 M41 M3 S=15
+N100 M0
+N110 DIAMOF
+;**************************************
+;Podhod k grebn'u
+;**************************************
+N120 G0 G40 G54 X=TREAD_DIAM+28+15 Z=TREAD_HEIGHT_S1+56+10 S=35
+;******************
+;Prohod pod greben'
+;******************
+N130 G97 M3 S=40
+N140 OFFN=0
+N150 G1 G42 X=TREAD_DIAM+28 Z=TREAD_HEIGHT_S1+56+5 F=1.1 M8
+N160    X=TREAD_DIAM+28 Z=TREAD_HEIGHT_S1+54.785
+N170 G3 X=TREAD_DIAM+19 Z=TREAD_HEIGHT_S1+39.196 CR=18 F=1
+N180 G1 X=TREAD_DIAM+10 Z=TREAD_HEIGHT_S1+34 F=0.9
+N190 G2 X=TREAD_DIAM+0.963 Z=TREAD_HEIGHT_S1+19.275 CR=18 F=1
+N200  
+N210 G4S1
+;********************************
+N220 G0 G40 G603 G641 ADISPOS=5 OFFN=0 
+N230    X=TREAD_DIAM+35 Z=TREAD_HEIGHT_S1+19
+N240    Z=TREAD_HEIGHT_S1+54.785-10
+;***************
+;Torcovka oboda
+;***************
+N250 OFFN=0
+N260 G96 M3 S=140
+N270 G1 G41 X=TREAD_DIAM+28 Z=TREAD_HEIGHT_S1+54.785-2 F=1.4 M7 M8
+N280    X=TREAD_DIAM+28 Z=TREAD_HEIGHT_S1+56
+N290 G2 X=TREAD_DIAM+10 Z=WHEEL_HEIGHT CR=18  F=1
+N300 G1 X=395-10 Z=WHEEL_HEIGHT     F1.5
+
+N310 G0 G40  Z=WHEEL_HEIGHT+100  M9
+;************************************************
+;PATH-CTRL-MODE TO HOME POSITION
+;************************************************
+N320 G97 M3 M23 S200 LIMS=200
+N330 G4 F10
+N340 G153 D0 Z=800
+N350 G60 G153 X=1000 M9
+N360 SPOS=254
+N370    M5
+N380 G4F3
+N390 M52 
+
+N400 M56
+;*********************
+;*H/c position*
+;*********************
+N410 M0
+
+N420 M51
+N430 G97 M3 S5
+N440 SPOS=116
+N450 M5
+N460 G4F3
+N470 M52
+
+N480 M0
+;************************************************
+;Narugnaja storona
+;************************************************
+N490 G18 G90 G95 F=1.2
+N500 N_PREPARE_FOR_MACHINING
+;********
+;* INIT *
+;********
+N510 M51 
+N520 M56
+
+N530 T20
+N540 M6
+N550 DIAMOF
+
+;CALL ZERO POINT SHIFT
+N560 G55
+N570 DIAMOF
+N580  G97 M41  M3 S=15
+N590 M0
+
+N600 G0 G40 X=TREAD_DIAM+5 Z=WHEEL_HEIGHT+2 S=45 LIMS=45
+;****************************************
+;Prohod po k/k
+;****************************************
+N610 OFFN=0
+N620 G1 G42 X=TREAD_DIAM-4.022-0.5 Z=WHEEL_HEIGHT+0.5 F=1.2 M7 M8
+N630    X=TREAD_DIAM-3.496 Z=WHEEL_HEIGHT-0.526 F=1.2 
+N640    X=TREAD_DIAM Z=TREAD_HEIGHT_S2
+N650    X=TREAD_DIAM+0.963 Z=TREAD_HEIGHT_S2-19.275
+N660 G2 X=TREAD_DIAM+7.517+0.1 Z=TREAD_HEIGHT_S2-32.288+1 CR=18 F=1.4
+
+N670 G0 G40 X=TREAD_DIAM+25 Z=WHEEL_HEIGHT+50
+N680 G97 M3 M23 S200 LIMS=200
+N690 G4 F2
+N700 G0 D0 Z=700
+N710 G153 G60 X=1150 Z=1000  M9
+N720  G97 M3 S=5
+N730  SPOS=116
+N740  M5
+N750  G4 F3
+N760  M52
+;*********************
+;*End of program*
+;*********************
+N770 M2

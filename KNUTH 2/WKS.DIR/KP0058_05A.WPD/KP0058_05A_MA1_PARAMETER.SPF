@@ -1,3 +1,4 @@
+
 ;************************************************
 ;KNUTH Verturn 1600CNC
 ;************************************************
@@ -12,7 +13,7 @@
 ;************************************************
 ;THESE THREE VALUES ARE ESSENTIAL FOR
 ;ZERO POINT SHIFT CALCULATION.
-N_WHEEL_UNMACHINED=154
+N_WHEEL_UNMACHINED=155.6
 N_WHEEL_MACHINED=145
 
 ;symmetric-factor for shifting the final part inside the raw part
@@ -28,18 +29,18 @@ TREAD_HEIGHT_S1=WHEEL_HEIGHT-TREAD_HEIGHT_S2
 GLOBAL_ALLOWANCE=0
 TREAD_ALLOWANCE=0.3
 
-TREAD_DIAM=(848/2)
-BORE_DIAM=201.85/2
+TREAD_DIAM=(848.1/2)
+BORE_DIAM=201.8/2
 
 VYLET_ST=0
 
-STUPICA_VNUT=0
+STUPICA_VNUT=0 
 STUPICA_NAR=0
 
 DISK_VNUT=-0.6
 DISK_NAR=0.5
 
-YABLOKO_VNUT=-0.6
+YABLOKO_VNUT=-0.7
 YABLOKO_NAR=-0.5
 ;******************
 ;* AUX PARAMETERS *

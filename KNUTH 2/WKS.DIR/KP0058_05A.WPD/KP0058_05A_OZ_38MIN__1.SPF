@@ -1,0 +1,481 @@
+
+;************************************************
+;KNUTH Verturn 1600CNC
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;************************************************
+;Wheel      : D=33''
+;Drawing-No.: KP-0058-05A
+;Profil     : B.13 AAR-2a
+;last change: 11.03.2020
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "KP0058_05A_MA1_PARAMETER_SPF"
+N30 N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+;N45 MSG("B/c, KP-0058-05A, D=33'', profil B.13 AAR-2a")
+;********
+;* INIT *
+;********
+N50 T125
+N60 M6
+N70 D1
+N80 DIAMOF
+N90 G97 M41 M3 S10
+N100 M0
+N110 G97 M41 M3 S40
+N120 DIAMOF
+;****************
+;Torcovka oboda
+;****************
+N130 G0 G40 G54 X=TREAD_DIAM+27.994+15 Z=WHEEL_HEIGHT+2
+
+N140 G96 M3 S=120 LIMS=47
+N150 OFFN=0.3
+N160 G1 G41 X=TREAD_DIAM+27.994 Z=WHEEL_HEIGHT F=0.8  M8 
+N170 X=384.5+50 Z=WHEEL_HEIGHT F=1
+N180  X=384.5-5 Z=WHEEL_HEIGHT F=1.2
+
+N190 G0 G40 X=IC($P_TOOLR*(-1)) Z=IC(2)
+;N200  X=TREAD_DIAM+27.994
+N200     X=TREAD_DIAM+2.594-0.5-3.5
+
+N210 GOTOF ZAVAL_GREBNYA
+;************************************************
+;Obrezka grebnya
+;************************************************
+N220 OFFN=TREAD_ALLOWANCE+GLOBAL_ALLOWANCE
+N230 G1 G42 X=TREAD_DIAM+27.994-0.3 Z=WHEEL_HEIGHT F=1.4 S=36
+N240   X=TREAD_DIAM+27.994 Z=TREAD_HEIGHT_S1+61.938+5 F=1
+N250   X=TREAD_DIAM+27.994 Z=TREAD_HEIGHT_S1+61.938-10 F=1
+
+N260 G0 G40 G603 G641 ADISPOS=15
+N270  X=TREAD_DIAM+50 Z=WHEEL_HEIGHT+10
+N280 G60 X=TREAD_DIAM+2.594-0.5-3.5 Z=WHEEL_HEIGHT+2
+;************************************************
+N290 ZAVAL_GREBNYA:
+;************************************************
+N300 G97 M41 M3 S36
+N310 OFFN=0.3
+N320 G1 G42 X=TREAD_DIAM+2.594+0.5 Z=WHEEL_HEIGHT F=3 S=36 M8 
+N330 G3 X=TREAD_DIAM+24.768+0.5 Z=TREAD_HEIGHT_S1+69.08 CR=34.925 F=0.9
+N340    X=TREAD_DIAM+27.994+0.5 Z=TREAD_HEIGHT_S1+61.938 CR=9.525 F=1
+N350    G1   Z=TREAD_HEIGHT_S1+61.938-5
+;************************************************
+;PATH-CTRL-MODE TO INNER HUB FACE
+;************************************************
+N360 G0 G40 G603 G641 ADISPOS=10 OFFN=0
+N370  X=TREAD_DIAM+50 Z=WHEEL_HEIGHT+10 M9
+;*******************************
+;Podhod k yabloku
+;*******************************
+N380 G97 M3 M41 S=115 LIMS=51
+N390 G0 G40 X=384.5-10
+
+N400 GOTOF OT_YABLOKA_2
+;************************************************
+;Chernovoj prohod ot yabloka
+;************************************************
+N410 OFFN=5+GLOBAL_ALLOWANCE
+N420 G1 G41 X=384.5 Z=WHEEL_HEIGHT+0.2 F=0.9 M8 
+N430    X=384.419 Z=WHEEL_HEIGHT-0.381 F=1.2
+N440    X=378.067 Z=WHEEL_HEIGHT-30.266 F=1.2
+N450 G3 X=340.897 Z=WHEEL_HEIGHT-60.366 CR=38 F=1.1
+
+N460 G0 G40 G603 G641 Z=WHEEL_HEIGHT+150
+N470    X=384.5-10 Z=WHEEL_HEIGHT+10
+;************************************************
+N480 OT_YABLOKA_2:
+;************************************************
+N490 OFFN=GLOBAL_ALLOWANCE
+N500 G1 G41 X=384.5+YABLOKO_VNUT+0.5 Z=WHEEL_HEIGHT+0.2 F=0.9 M8 
+N510    X=384.419+YABLOKO_VNUT Z=WHEEL_HEIGHT-0.381 F=1.2
+N520    X=378.067+YABLOKO_VNUT Z=WHEEL_HEIGHT-30.266 F=1.2
+N530 G3 X=340.897 Z=WHEEL_HEIGHT-60.366+DISK_VNUT CR=38 F=1.1
+
+N540 G0 G40 G603 G641 Z=WHEEL_HEIGHT+64+150   M3 S=1 LIMS=1
+;************************
+;Podhod k stupice
+;************************
+N550 G96 M3 M42 S=112 LIMS=155
+N560 G60 X=141.25+20 Z=WHEEL_HEIGHT+64+1
+
+N570 GOTOF TORCOVKA_STUPICY_2
+;************************
+;Torcovka stupicy
+;************************
+N580 OFFN=5
+N590 G1 G41 X=141.25+5 Z=WHEEL_HEIGHT+64 F=0.8 M8 
+N600  X=BORE_DIAM-17 Z=WHEEL_HEIGHT+64 F=0.8 M23
+
+N610 G0 G40 X=IC($P_TOOLR*(-1)) Z=IC(10)  M9
+N620     X=141.25+30
+N630 G60 Z=WHEEL_HEIGHT+64
+;************************
+N640 TORCOVKA_STUPICY_2:
+;************************
+N650 G96 M3 M42 S=112 LIMS=150
+N660 OFFN=GLOBAL_ALLOWANCE
+N670 G1 G41 X=141.25+7 Z=WHEEL_HEIGHT+64+VYLET_ST F=1.1 M8 
+N680  X=BORE_DIAM+0.5 Z=WHEEL_HEIGHT+64+VYLET_ST F=1.1
+N690  X=BORE_DIAM Z=WHEEL_HEIGHT+64+VYLET_ST-0.5 F=0.44
+
+N700 G0 G40 X=IC($P_TOOLR*(-1)) Z=IC(4)  M9
+N710  X=141.25+10
+
+N720 GOTOF OT_STUPICY_2
+;************************************************
+;Chernovoj prohod ot stupicy 
+;************************************************
+N730 G96 M3 S=160 LIMS=160
+N740 OFFN=5
+N750 G1 G42 X=141.25 Z=WHEEL_HEIGHT+64 F=0.75 M8 
+N760 G2 X=197.639 Z=WHEEL_HEIGHT+24.5 CR=60 F=0.75
+N770    X=202.5 Z=WHEEL_HEIGHT+24.5 CR=6000 F=1.35
+N780 G3 X=294.94 Z=WHEEL_HEIGHT-30.157 CR=105.5 F=1
+N790 G2 X=328.984 Z=WHEEL_HEIGHT-58.45 CR=60.5 F=1.1
+N800    X=340.897 Z=WHEEL_HEIGHT-60.366 CR=38
+
+N810 G0 G40 Z=WHEEL_HEIGHT+64+5
+N820    X=141.25+10
+;************************************************
+N830 OT_STUPICY_2:
+;************************************************
+N840 G96 M3 S=160 LIMS=160
+N850 OFFN=GLOBAL_ALLOWANCE
+N860 G1 G42 X=140.95+STUPICA_VNUT Z=WHEEL_HEIGHT+64+VYLET_ST F=1.1 M8 
+N870    X=141.425+STUPICA_VNUT Z=WHEEL_HEIGHT+63.525+VYLET_ST
+N880 G2 X=197.639+STUPICA_VNUT Z=WHEEL_HEIGHT+24.5+DISK_VNUT CR=60 F=1.1
+N890    X=202.5+STUPICA_VNUT Z=WHEEL_HEIGHT+24.5+DISK_VNUT CR=6000 F=1
+N900 G3 X=294.94 Z=WHEEL_HEIGHT-30.157+DISK_VNUT CR=105.5
+N910 G2 X=328.984 Z=WHEEL_HEIGHT-58.45+DISK_VNUT CR=60.5 F=1.1
+N920    X=340.897 Z=WHEEL_HEIGHT-60.366+DISK_VNUT CR=38 
+N930    X=355.511 Z=WHEEL_HEIGHT-57.443+DISK_VNUT+0.3 CR=38
+;************************************************
+;Smena instrumenta T125 na T20
+;************************************************
+N940 G0 G40 G603 G641 ADISPOS=25 OFFN=0
+N950 G153 D0 Z=700
+N960 G153 G60 X=1000 M60 M9 M5
+N970 T20
+N980 M6
+N990 DIAMOF
+;****************************
+;Chernovoj prohod pod greben'
+;****************************
+N1000 G97 M3 M42 S=35
+N1010 G0 G40 X=TREAD_DIAM+27.994+5 Z=TREAD_HEIGHT_S1+61.938+5
+
+N1020 OFFN=0.3
+N1030 G1 G42 X=TREAD_DIAM+27.994 Z=TREAD_HEIGHT_S1+61.938+3 F=1 M8
+N1040 G1 X=TREAD_DIAM+27.994 Z=TREAD_HEIGHT_S1+61.938 F=1
+N1050 G3 X=TREAD_DIAM+26.711 Z=TREAD_HEIGHT_S1+53.007 CR=31.75 F=1
+N1060    X=TREAD_DIAM+20.036 Z=TREAD_HEIGHT_S1+46.484 CR=9.525 F=1
+N1070 G1 X=TREAD_DIAM+14.951 Z=TREAD_HEIGHT_S1+45.123 F=0.7
+N1080 G2 X=TREAD_DIAM+13.125 Z=TREAD_HEIGHT_S1+44.498 CR=14.288
+N1090  X=TREAD_DIAM+9.518 Z=TREAD_HEIGHT_S1+41.923 CR=10 F=0.9
+N1100  X=TREAD_DIAM+5.388 Z=TREAD_HEIGHT_S1+35.128 CR=22.139 F=0.9
+N1110    X=TREAD_DIAM+2.829 Z=TREAD_HEIGHT_S1+26.83 CR=65.001 F=0.9
+N1120 G4 S1
+
+N1130 G0 G40 G603 G641 ADISPOS=5 OFFN=0 
+N1140  X=TREAD_DIAM+30.097 Z=TREAD_HEIGHT_S1+15.150
+N1150  Z=WHEEL_HEIGHT+50 G97 M3  S=70
+;************************************************
+;Chistovoj prohod po grebn'u
+;************************************************
+N1160 G0 G40 X=384.5-$P_TOOLR-7.5 Z=WHEEL_HEIGHT+50
+
+N1170 G97 M42 M3 S=110
+N1180 G95 LIMS=70
+
+N1190 G0 Z=WHEEL_HEIGHT+10
+N1200 G0 G60 Z=WHEEL_HEIGHT
+
+N1210 OFFN=0
+N1220 G1 G42 X=384.5-1 Z=WHEEL_HEIGHT F=1.5 M8 S=70
+N1230    X=TREAD_DIAM+2.594 Z=WHEEL_HEIGHT
+N1240 G3 X=TREAD_DIAM+24.768 Z=TREAD_HEIGHT_S1+69.08 CR=34.925 F=1.4
+N1250    X=TREAD_DIAM+27.994 Z=TREAD_HEIGHT_S1+61.938 CR=9.525
+N1260    X=TREAD_DIAM+26.711 Z=TREAD_HEIGHT_S1+53.007 CR=31.75
+N1270    X=TREAD_DIAM+20.036 Z=TREAD_HEIGHT_S1+46.484 CR=9.525 F=0.8
+N1280 G1 X=TREAD_DIAM+14.951-0.15 Z=TREAD_HEIGHT_S1+45.123+0.05
+N1290 G2 X=TREAD_DIAM+13.125-0.15 Z=TREAD_HEIGHT_S1+44.498+0.1 CR=14.288
+N1300    X=TREAD_DIAM+9.518-0.1 Z=TREAD_HEIGHT_S1+41.923+0.1 CR=10
+N1310    X=TREAD_DIAM+5.388-0.05 Z=TREAD_HEIGHT_S1+35.128+0.08 CR=22.139 
+N1320    X=TREAD_DIAM+2.829 Z=TREAD_HEIGHT_S1+26.83 CR=65.001
+N1330 G97 M3 S200 LIMS=200 M23
+;************************************************
+;Othod v ishodnuju posiciju
+;************************************************
+N1340 G0 G40 G603 G641 ADISPOS=5 OFFN=0 
+N1350  X=TREAD_DIAM+50 Z=TREAD_HEIGHT_S1+15.150
+N1360  G153 D0 Z=800
+N1370  G60 G153 X=1000 
+;************************************************
+;Posicionirovanie planshajbi
+;************************************************
+N1380 G4 F4
+N1390 M9
+N1400 SPOS=303
+N1410  M5
+N1420 G4F3
+N1430 M52 
+
+N1440 M56
+;*********************
+N1450 MSG("Obrabotka B/c zavershena")
+;*********************
+N1460 M0
+;*********************
+;Posicionirovanie planshajbi dlja H/c
+;*********************
+N1470 M51
+N1480 G97 M41 M3 S5
+N1490 SPOS=40
+N1500 M5
+N1510 G4F3
+N1520 M52
+
+N1530 M0
+;************************************************
+;N45 MSG("H/c, KP-0058-05A, D=33'', profil B.13 AAR-2a")
+;************************************************
+N1540 G18 G90 G95 F=1.2
+;********
+;* INIT *
+;********
+N1550 M51 
+N1560 M56
+
+N1570 T20
+N1580 M6
+N1590 DIAMOF
+
+;CALL ZERO POINT SHIFT
+N1600 G55
+N1610 DIAMOF
+N1620 G97 M41 M3 S=10
+N1630 M0
+N1640 G97 M41 M3 S=35
+N1650 G0 G40 X=TREAD_DIAM+3 Z=WHEEL_HEIGHT+1
+
+N1660 G95 LIMS=35
+;************************************************
+;Torcovka oboda
+;************************************************
+N1670 OFFN=TREAD_ALLOWANCE
+N1680 G1 G41 X=TREAD_DIAM Z=WHEEL_HEIGHT F=1.3 M8
+N1690    X=384.5-7 Z=WHEEL_HEIGHT F=1.3
+
+N1700 G0 G40 X=IC($P_TOOLR*(-1)) Z=IC(2.0)
+N1710   X=TREAD_DIAM
+;************************************************
+;Chernovoj prohod po k/k
+;************************************************
+N1720 OFFN=TREAD_ALLOWANCE+GLOBAL_ALLOWANCE
+N1730 G97 M3 S=38 LIMS=35
+N1740 G1 G42 X=TREAD_DIAM-3.36 Z=WHEEL_HEIGHT F=0.9 M8
+N1750    X=TREAD_DIAM-2.606 Z=WHEEL_HEIGHT-15.082 F=1.3
+N1760 G1 X=TREAD_DIAM Z=TREAD_HEIGHT_S2 F=1.3
+N1770    X=TREAD_DIAM+0.437 Z=TREAD_HEIGHT_S2-8.745 F=1.3
+N1780 G2 X=TREAD_DIAM+2.118 Z=TREAD_HEIGHT_S2-23.419 CR=115.001 F=1.3
+N1790    X=TREAD_DIAM+2.829 Z=TREAD_HEIGHT_S2-26.83 CR=65.001 F=1.3
+N1800 G4 S1
+
+N1810 G0 G40 G603 G641 ADISPOS=25 OFFN=0
+N1820  X=TREAD_DIAM+15 Z=WHEEL_HEIGHT+10
+N1830 G60 X=TREAD_DIAM-10 Z=WHEEL_HEIGHT+2
+;******************************
+;Radius s oboda na k/k
+;******************************
+N1840 G97 M3 S=80
+N1850 OFFN=TREAD_ALLOWANCE+GLOBAL_ALLOWANCE
+N1860 G1 G42 X=TREAD_DIAM-18.461 Z=WHEEL_HEIGHT F=2 LIMS=35 M8
+N1870 G3 X=TREAD_DIAM-2.606 Z=WHEEL_HEIGHT-15.082 CR=15.875 F=1.1
+;************************************************
+;PATH-CTRL-MODE TO OUTER HUB FACE
+;************************************************
+N1880 G0 G40 G603 G641 ADISPOS=25 OFFN=0
+N1890  X=TREAD_DIAM+15 Z=WHEEL_HEIGHT+70 LIMS=45 
+;************************************************
+;Chistovoj prohod po k/k
+;************************************************
+N1900 G0 G40 X=384.5-$P_TOOLR-7.5 Z=WHEEL_HEIGHT+50 LIMS=65
+
+N1910 G97 M3 S=75 LIMS=185
+N1920 G0 Z=WHEEL_HEIGHT
+
+N1930 OFFN=GLOBAL_ALLOWANCE
+N1940 G1 G42 X=384.5-1 Z=WHEEL_HEIGHT F=1.9 M7 M8
+N1950    X=TREAD_DIAM-18.461 Z=WHEEL_HEIGHT F=1.7
+N1960 G3 X=TREAD_DIAM-2.606 Z=WHEEL_HEIGHT-15.082 CR=15.875 F=1.45
+N1970 G1 X=TREAD_DIAM Z=TREAD_HEIGHT_S2 F=1.4
+N1980    X=TREAD_DIAM+0.437 Z=TREAD_HEIGHT_S2-8.745 
+N1990 G2 X=TREAD_DIAM+2.118 Z=TREAD_HEIGHT_S2-23.419 CR=115.001 
+N2000    X=TREAD_DIAM+5.388+0.17 Z=TREAD_HEIGHT_S2-35.128 CR=65.001
+N2010    X=TREAD_DIAM+6.568+0.3 Z=TREAD_HEIGHT_S2-37.704 CR=22.139
+;************************************************
+;Smena instrumenta T20 na T125
+;************************************************
+N2020 G0 G40 X=TREAD_DIAM+25 Z=WHEEL_HEIGHT+50
+N2030 OFFN=0
+N2040 T125
+N2050 M6
+N2060 DIAMOF
+;************************************************
+;Podhod k yabloku
+;************************************************
+N2070 G96 M3 S=140 LIMS=85
+N2080 G0 G40 X=384.5-$P_TOOLR Z=WHEEL_HEIGHT+8
+
+N2090 GOTOF OT_YABLOKA_2 
+;************************************************
+;Chernovoj prohod ot yabloka
+;************************************************
+N2100 OFFN=5+GLOBAL_ALLOWANCE
+N2110 G1 G41 X=384.5 Z=WHEEL_HEIGHT F=0.9 M8
+N2120    X=378.425 Z=116.418 F=0.7
+N2130 G3 X=343.315 Z=86.374 CR=38 F=0.6
+N2140 G2 X=273.035 Z=42.205 CR=85.5 F=0.7
+N2150 G3 X=214.755 Z=1.438 CR=80.5 F=0.8
+N2160 G4S1
+
+N2170 G0 G40 G603 G641 Z=WHEEL_HEIGHT+200
+N2180    X=384.5-$P_TOOLR Z=WHEEL_HEIGHT+8
+;************************************************
+N2190 OT_YABLOKA_2:
+;************************************************
+N2200 OFFN=GLOBAL_ALLOWANCE
+N2210 G1 G41 X=384.5+0.5+YABLOKO_NAR Z=WHEEL_HEIGHT+0.2 F=0.9  M8
+N2220    X=384.419+YABLOKO_NAR Z=WHEEL_HEIGHT-0.381 F=0.8
+N2230    X=378.425+YABLOKO_NAR Z=116.418+DISK_NAR F=0.7
+N2240 G3 X=343.315+YABLOKO_NAR Z=86.374+DISK_NAR CR=38 F=0.6
+N2250 G2 X=273.035 Z=42.205+DISK_NAR CR=85.5 F=0.9 
+N2260 G3 X=214.755 Z=1.438+DISK_NAR CR=80.5 F=1
+
+N2270 G0 G40 G603 G641 Z=WHEEL_HEIGHT+200 G97 M3 S=1 LIMS=1
+;************************************************
+;MOVE TO OUTER BOTTOM #2
+;************************************************
+N2280 G96 M3 M42 S=112 LIMS=155
+N2290 G60 X=141.25+20 Z=114+5
+
+N2300 GOTOF TORCOVKA_STUP_2
+;************************************************
+;Torcovka stupicy
+;************************************************
+N2310 OFFN=GLOBAL_ALLOWANCE
+N2320 G1 G41 X=141.25+10 Z=114+5 F=0.5 M8
+N2330   X=BORE_DIAM-12 Z=114+5 F=0.5
+
+N2340 G0 G40 X=IC($P_TOOLR*(-1)) Z=IC(3)
+N2350    X=141.25+20
+;************************************************
+N2360 TORCOVKA_STUP_2:
+;************************************************
+N2370 OFFN=GLOBAL_ALLOWANCE
+N2380 G1 G41 X=141.25+10 Z=114 F=0.5 M8
+N2390   X=BORE_DIAM+0.5 Z=114 F=0.65
+N2400   X=BORE_DIAM Z=114-0.5 F=0.44
+
+N2410 G0 G40 X=IC($P_TOOLR*(-1)) Z=IC(10)
+N2420   X=141.25+7 Z=114+7
+N2430 GOTOF OT_STUPICY_2
+;************************************************
+;Chernovoj prohod ot stipicy 
+;************************************************
+N2440 G96 M3 S=150 LIMS=130
+N2450 OFFN=5+GLOBAL_ALLOWANCE
+N2460 G1 G42 X=141.25 Z=114 F=0.9 M8
+N2470    X=158.425 Z=39.608 F=0.8
+N2480 G2 X=214.755 Z=1.438 CR=50 F=0.8 M23
+
+N2490 G0 G40 G603 G641 Z=114+200
+N2500   X=141.25+7 Z=114+7 M9
+;************************************************
+N2510 OT_STUPICY_2: 
+;************************************************
+N2520 G96 M3 S=155 LIMS=155
+N2530 OFFN=GLOBAL_ALLOWANCE
+N2540 G1 G42 X=141.25-0.5+STUPICA_NAR Z=114+0.2 F=0.9 M8
+N2550    X=141.34+STUPICA_NAR Z=113.61 F=0.8
+N2560    X=158.425+STUPICA_NAR Z=39.608+DISK_NAR
+N2570 G2 X=214.755 Z=1.438+DISK_NAR CR=50 F=0.9 
+N2580    X=233.943 Z=6.895+0.3+DISK_NAR CR=80.5 F=1.1 M23
+;************************************************
+;Smena instrumenta T125 na T5
+;************************************************
+N2590 G0 G40 G603 G641 ADISPOS=25 OFFN=0
+N2600 G153 D0 Z=700
+N2610 G97 S=160 LIMS=220
+N2620 G60 G153 X=1000  M60 M9
+N2630 T5 D1
+N2640 M6
+N2650 DIAMOF
+;************************************************
+;Rastochka stupicy
+;************************************************
+N2660 M3 G97 S=200 LIMS=220
+N2670 G0 G40 G95 X=BORE_DIAM-10 Z=114+15
+;---------------------------
+;N2640  GOTO RASTOCHKA_2
+;  GOTO RASTOCHKA_3 
+;--------------------------
+N2680 G1 X=BORE_DIAM-10 Z=114 F=1.2 M7 M8
+N2690  Z=-64-5 F=0.6
+
+N2700 G0 G40 G603 G641 ADISPOS=10
+N2710    X=IC(-5) Z=IC(5)
+N2720    Z=114+15
+N2730 G60 X=BORE_DIAM-4
+N2740 STOPRE
+;************************************************
+N2750  RASTOCHKA_2:
+;************************************************
+N2760 M3 G97 S=200
+N2770 G1 X=BORE_DIAM-4 Z=114+1 F=0.8 M8
+N2780    Z=-64+1.5 F=0.6
+N2790    Z=-64-1.5 
+N2800    Z=-64-10 F=1.4 
+
+N2810 G0 G40 G603 G641 ADISPOS=10
+N2820    X=IC(-5) Z=IC(5)
+N2830    Z=114.3+15
+N2840 G60 X=BORE_DIAM
+;************************************************
+N2850    RASTOCHKA_3:
+;************************************************
+N2860 M3 G97 S=200
+N2870 G1 X=BORE_DIAM Z=114+1 F=0.6 M8
+N2880    Z=-64-1.5 F=0.6
+N2890    Z=-64-10 F=0.9 M23
+
+N2900 G0 G40 X=IC(-8)
+N2910    Z=114+15 G97 M3 S=20
+
+N2920 G97 M3 S=20
+N2930 G4F1
+;************************************************
+;PATH-CTRL-MODE TO TOOL CHANGE T1
+;************************************************
+N2940 G0 G40 Z=IC(50) M9
+N2950 SUPA D0 X=1000 Z=800
+N2960 G97 M3 S=10
+N2970 M41
+;N2970 M42
+N2980 G4 F3
+N2990 SPOS=42
+N3000 M5
+N3010 G4 F3
+N3020 M52
+N3030 T125
+N3040 M6
+N3050 D1
+N3060 DIAMOF
+;*********************
+;*END OF PROGRAM*
+;*********************
+N3070 M2

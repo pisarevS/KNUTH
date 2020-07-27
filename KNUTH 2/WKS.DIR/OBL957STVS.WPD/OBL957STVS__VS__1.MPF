@@ -9,7 +9,7 @@
 ;************************************************
 N10 G18 G90 G95 F=1.2
 
-N20 CALL "OBL957ST_MA2_PARAMETER_SPF"
+N20 CALL "OBL957ST_MA3_PARAMETER_SPF"
 N30    N_PREPARE_FOR_MACHINING
 ;********
 N40 M51 M56
