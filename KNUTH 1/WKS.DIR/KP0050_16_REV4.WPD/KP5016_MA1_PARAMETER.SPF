@@ -1,10 +1,11 @@
 ;************************NORMA___10/13*********42___MIN************
-;*********SMOTRET___VILIT___22.5+0.5___I___OTVERSTIE___193-2*******
+;*********SMOTRET___VILIT___22.5+0.5___I___OTVERSTIE___199-2*******
 ;**********BOLSHOY___BOLT___NA___4___OTVERSTIYA_______28MM*********
-;******************************************************************;KNUTH
+;******************************************************************
+;KNUTH
 ;Wheel: BOLGARIYA, d=920 mm, PROFIL h28/E30.5/6,7%
-;NTZ: KP-0016-03
-;last change: 26.04.2018
+;KP-0050-16 ULT23 / ULT25 rev. 4
+;last change: 21.08.2020
 ;************************************************
 ;PROGRAM-TYPE: Parameter Program
 ;************************************************
@@ -21,6 +22,7 @@ N_WHEEL_MACHINED=135
 N_SYM_FACTOR=0.5
 
 TREAD_DIAM=(923/2)
+
 WHEEL_HEIGHT=N_WHEEL_MACHINED
 TREAD_HEIGHT_S2=70
 TREAD_HEIGHT_S1=WHEEL_HEIGHT-TREAD_HEIGHT_S2
@@ -28,18 +30,19 @@ TREAD_HEIGHT_S1=WHEEL_HEIGHT-TREAD_HEIGHT_S2
 GLOBAL_ALLOWANCE=0
 TREAD_ALLOWANCE=0.3
 
-BORE_DIAM=192/2
+BORE_DIAM=198/2  ;для ULT25
+                              ;;;; BORE_DIAM=192/2  ;для ULT23
 
-VYLET_ST=-0.2
+VYLET_ST=0
 
-STUPICA_VNUT=0.5 
-STUPICA_NAR=0.6 
+STUPICA_VNUT=0
+STUPICA_NAR=-0.05
 
-DISK_VNUT=0.9 
-DISK_NAR=-0.6 
+DISK_VNUT=0
+DISK_NAR=0.2
 
-YABLOKO_VNUT=-0.3 
-YABLOKO_NAR=-0.1
+YABLOKO_VNUT=-0.1
+YABLOKO_NAR=0.25
 ;******************
 ;* AUX PARAMETERS *
 ;******************

@@ -1,4 +1,4 @@
-;**************************NORMA___9/12***************************
+;**************************NORMA___10/13***************************
 ;*********************NE___RASTOCHENO___NIGDE*********************
 ;*********BOLSHOY___BOLT___NA___4___OTVERSTIE_______29MM**********
 ;KNUTH
@@ -27,17 +27,19 @@ TREAD_HEIGHT_S1=WHEEL_HEIGHT-TREAD_HEIGHT_S2
 GLOBAL_ALLOWANCE=0
 TREAD_ALLOWANCE=0.3
 
-VYLET_ST=0
+VYLET_ST=0.5
 
 STUPICA_VNUT=1.2
-STUPICA_NAR=1
+STUPICA_NAR=1.2
 
-DISK_VNUT=-0.3
-DISK_NAR=0.8
-BORE_DIAM=210.1/2
+DISK_VNUT=1.5
+DISK_NAR=-0.9
+
+
+BORE_DIAM=210.2/2
 
 YABLOKO_VNUT=0
-YABLOKO_NAR=0.4
+YABLOKO_NAR=0
 ;******************
 ;* AUX PARAMETERS *
 ;******************

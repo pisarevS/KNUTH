@@ -1,21 +1,19 @@
-;**************************NORMA___10/13***************************
-;**********************NE___RASTOCHENO___NIGDE*********************
-;**********BOLSHOY___BOLT___NA___5___OTVERSTIE_______29MM**********
+;************************************************
 ;KNUTH Verturn 1600CNC
 ;************************************************
 ;PROGRAM-TYPE: Parameter Program
 ;************************************************
-;Wheel      : D=33''
-;Drawing-No.: KP-0058-05A
-;Profil     : 
-;last change: 11.03.2020
+;Wheel      : D=38''
+;Drawing-No.: KP-0035-11
+;Profil     : AAR-2A B13
+;last change: 19.03.2020
 ;************************************************
 ;* SETTING UP MACHINING VARIABLES *
 ;************************************************
 ;THESE THREE VALUES ARE ESSENTIAL FOR
 ;ZERO POINT SHIFT CALCULATION.
-N_WHEEL_UNMACHINED=155
-N_WHEEL_MACHINED=145
+N_WHEEL_UNMACHINED=151.85
+N_WHEEL_MACHINED=146
 
 ;symmetric-factor for shifting the final part inside the raw part
 ;<0.5 MORE allowance for side 1 but LESS for SIDE 2.
@@ -28,21 +26,21 @@ TREAD_HEIGHT_S2=77.8
 TREAD_HEIGHT_S1=WHEEL_HEIGHT-TREAD_HEIGHT_S2
 
 GLOBAL_ALLOWANCE=0
-TREAD_ALLOWANCE=0.3
+TREAD_ALLOWANCE=0.1
 
-TREAD_DIAM=(848.3/2)
-BORE_DIAM=204.2/2
+TREAD_DIAM=(970.1/2)
+BORE_DIAM=233.75/2
 
-VYLET_ST=0
+VYLET_ST=-0.2
 
-STUPICA_VNUT=0
-STUPICA_NAR=0.2
+STUPICA_VNUT=1.45
+STUPICA_NAR=0.5  
 
-DISK_VNUT=-0.2
-DISK_NAR=1
+DISK_VNUT=-2.7  
+DISK_NAR=2.2    
 
-YABLOKO_VNUT=0
-YABLOKO_NAR=0
+YABLOKO_VNUT=-1.2 
+YABLOKO_NAR=-1.
 ;******************
 ;* AUX PARAMETERS *
 ;******************
