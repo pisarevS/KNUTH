@@ -1,0 +1,86 @@
+;************************************************
+;KNUTH Verturn 1600 CNC
+;Wheel      : D=920 mm, 
+;Drawing-No.: KP-0045-20
+;last change: 29.11.2020
+;************************************************
+;PROGRAM-TYPE  : Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+N20 CALL "KP0050_16_MA3_PARAMETER_SPF"
+N30 N_PREPARE_FOR_MACHINING
+;**********
+N40 M51 M56
+;**********
+;* INIT *
+;*********
+N50 T125
+N60 M6
+N70 D1
+N80 DIAMOF
+N90 G97 M42 M3 S40
+N100 M0
+
+N110 G97 M3 S=165 LIMS=165
+N120 G0 G40 G56 X=130.952+30 Z=WHEEL_HEIGHT+30+10
+;*****************
+;Torcovka stupicy
+;*****************
+N130 OFFN=GLOBAL_ALLOWANCE
+N140 G1 G41 X=130.952+10 Z=WHEEL_HEIGHT+30+VYLET_ST+1 F=0.7 M7 M8
+N150   X=BORE_DIAM-10 Z=WHEEL_HEIGHT+30+VYLET_ST+1 F=0.7
+N160 G0 G40 Z=WHEEL_HEIGHT+30+50
+
+;************************************************
+;Smena instrumenta T125 na T5
+;************************************************
+N260 G0 G40 G603 G641 ADISPOS=25 OFFN=0
+N270 G153 D0 Z=700
+N280 G153 G60 X=1000 M60 M9
+N290 G97 M3 S=195 LIMS=200
+N300 T5
+N310 M6
+N320 DIAMOF
+;************************************************
+;Rastochka stupicy 
+;************************************************
+N330 M3 G97 S=210 LIMS=210
+N340 G0 G40 G95 X=BORE_DIAM-10-GLOBAL_ALLOWANCE Z=WHEEL_HEIGHT+30+VYLET_ST+GLOBAL_ALLOWANCE+15 M8
+;-----------------------------
+ ;GOTO RASTOCHKA_2
+;------------------------------
+N350 G1 X=BORE_DIAM-6-GLOBAL_ALLOWANCE Z=WHEEL_HEIGHT+30+VYLET_ST+GLOBAL_ALLOWANCE F=1 M7 M8
+N360   Z=WHEEL_HEIGHT+30-191-20 F=0.7
+
+N370 G0 G40 X=IC(-2)
+N380   Z=WHEEL_HEIGHT+30+15 
+;***********************
+ RASTOCHKA_2:
+;***********************
+N330 M3 G97 S=210 LIMS=210
+N390 G1 X=BORE_DIAM-GLOBAL_ALLOWANCE Z=WHEEL_HEIGHT+30+VYLET_ST F=1.1 M7
+N400 Z=WHEEL_HEIGHT+30-191-20 F=0.8 M23
+     G1 X=BORE_DIAM-GLOBAL_ALLOWANCE+3
+N410 G0 G40 X=IC(-10)
+N420    Z=WHEEL_HEIGHT+30+5
+N480 M9
+;************************************************
+;Smena instrumenta T5 na T125
+;************************************************
+N490 G0 G40 Z=IC(50)
+N500 G97 M3 S=10
+N510 SUPA D0 X=1000 Z=700
+N520 SPOS=116 ;;;246
+N530 M5
+N540 G4 F3
+N550 M52
+N560 T125
+N570 M6
+N580 D1
+N590 DIAMOF
+;*********************
+;*End of program*
+;*********************
+N600 M2
+

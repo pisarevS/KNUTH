@@ -390,7 +390,7 @@ N2560 G0 G40 G603 G641 ADISPOS=25 OFFN=0
 N2570 G153 D0 Z=700
 N2580 G60 G153 X=1000 M9
 
-   ;GOTOF BEZ_KANAVKI
+   GOTOF BEZ_KANAVKI
 
 N2590 T7 D1
 N2600 M6
@@ -440,7 +440,7 @@ N3290 DIAMOF
 ;N840  M42
 N3120  M3 G97 S=180 LIMS=185
 ;-----------------------------
-  ;GOTO RASTOCHKA_2
+  GOTO RASTOCHKA_2
 ;------------------------------
 ;************************************************
 ;1-j prohod

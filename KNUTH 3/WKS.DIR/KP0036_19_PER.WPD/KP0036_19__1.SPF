@@ -1,0 +1,142 @@
+;************************Peretochka k/k*****************************
+;KNUT MFD
+;Wheel: d=920 mm, peretochka k/k
+;NTZ  : KP-0036-19, Saud Arabia
+;last change: 29.07.2020
+;************************************************
+;PROGRAM-TYPE: Machining Program
+;MACHINING SIDE: 1
+;************************************************
+N10 G18 G90 G95 F=1.2
+
+N20 CALL "KP0036_19_MA3_PARAMETER_SPF"
+N30 N_PREPARE_FOR_MACHINING
+;********
+N40 M51 M56
+;********
+;* INIT *
+;********
+;GOTOF H_C
+N50 T20
+N60 M6
+N70 D1
+N80 DIAMOF
+N90 G97 M42 M3 S15
+N100 M0
+N110 DIAMOF
+N120 G0 G40 G54 X=397.837-$P_TOOLR-7.5 Z=WHEEL_HEIGHT+50 S=100
+;************************************************
+;Chistovoj prohod po grebn'ju
+;************************************************
+N1110 G97 M42 M3 S=100
+N1120 G95 LIMS=RTOI(120/(2*3.14*(TREAD_DIAM+30)/1000))
+N1130 G0 Z=WHEEL_HEIGHT+10
+N1140 G0 G60 Z=WHEEL_HEIGHT
+
+N1150 OFFN=GLOBAL_ALLOWANCE
+N1160 G1 G42 X=397.837-1 Z=WHEEL_HEIGHT F=1.3 M7 M8
+N1290 G1 X=TREAD_DIAM+16.7 Z=WHEEL_HEIGHT F=1.4
+N1300 G3 X=TREAD_DIAM+30.2 Z=TREAD_HEIGHT_S1+56.3 CR=13.5 F=1.1
+N1330    X=TREAD_DIAM+20.991 Z=TREAD_HEIGHT_S1+43.5 CR=13.5 F=0.95
+N1340 G1 X=TREAD_DIAM+13.675 Z=TREAD_HEIGHT_S1+40.837 F=0.9
+N1350 G2 X=TREAD_DIAM+1.197 Z=TREAD_HEIGHT_S1+23.932 CR=19 F=1.2
+N1360 G1 X=TREAD_DIAM+0.8+0.02 Z=TREAD_HEIGHT_S1+16
+ 
+N1290 G97 M3 S200 LIMS=200 M23
+;************************************************
+;PATH-CTRL-MODE TO TOOL CHANGE T1
+;************************************************
+N1300 G0 G40 G603 G641 ADISPOS=5 OFFN=0 
+N1310  X=TREAD_DIAM+50 Z=TREAD_HEIGHT_S1+19
+N1320  G153 D0 Z=800
+N1330  G60 G153 X=1000 
+;************************************************
+;MACHINING CH1 FINISHED, WAIT FOR FINISHING CH2
+;************************************************
+N1340 G4 F2
+N1350 M9
+N1360 G97 M42 M3 S20
+N1370 SPOS=254
+N1380    M5
+N1390 G4F3
+N1400 M52 
+
+N1410 M56
+N1420 MSG("OBRABOTKA V/S ZAVERSHENA")
+;*********************
+;*POSICITION N/S*
+;*********************
+N1430 M0
+
+N1440 M51
+N1450 G97 M41 M3 S5
+N1460 SPOS=116
+N1470 M5
+N1480 G4F3
+N1490 M52
+
+N1500 MSG("ZAGRUZKA N/S")
+N1510 M0
+;************************************************
+ H_C:
+;************************************************
+N1520 G18 G90 G95 F=1.2
+
+N1530   N_PREPARE_FOR_MACHINING
+;********
+;* INIT *
+;********
+N1540 M51 
+N1550 M56
+
+N1560 T20
+N1570 M6
+N1580 DIAMOF
+
+;CALL ZERO POINT SHIFT
+N1590 G55
+N1600 DIAMOF
+N1610  G97 M41 M3 S=15
+N1620 M0
+
+N1850 G0 G40 X=TREAD_DIAM Z=WHEEL_HEIGHT+50 S=85
+N1870 G97 M3 S=85 LIMS=85
+
+
+N1860 G0 G60 X=377-10
+
+
+N1860 G0 G60 Z=WHEEL_HEIGHT+GLOBAL_ALLOWANCE+0.5
+;************************************************
+;Chistovoj prohod po k/k
+;************************************************
+N1890 OFFN=GLOBAL_ALLOWANCE+0.07
+
+        N1900 G1 G42 X=377-5 Z=WHEEL_HEIGHT F=1.1 M7 M8
+		
+N1900 G1 G42 X=TREAD_DIAM-10.028 Z=WHEEL_HEIGHT F=1.3 M7 M8
+N940    X=TREAD_DIAM-5.028 Z=WHEEL_HEIGHT-5 F=1.2
+N960    X=TREAD_DIAM-1.665 Z=TREAD_HEIGHT_S2+33.3 F=1.4
+N970    X=TREAD_DIAM Z=TREAD_HEIGHT_S2
+N980    X=TREAD_DIAM+0.8+0.02 Z=TREAD_HEIGHT_S2-16
+N980    X=TREAD_DIAM+1.197+0.1 Z=TREAD_HEIGHT_S2-23.931
+N990 G2 X=TREAD_DIAM+4.028+0.16 Z=TREAD_HEIGHT_S2-33+0.05 CR=19
+
+N2050 G0 G40 X=TREAD_DIAM+25 Z=WHEEL_HEIGHT+50
+N3350 G97 M3 S=200
+;************************************************
+;Go to home position
+;************************************************
+N3360 G0 G40 Z=IC(50)
+N3370 SUPA D0 X=1000 Z=800 M9
+N3380 G97 M3 S=20
+N3390 M42
+N3400 G4 F3
+N3410 SPOS=116
+N3420 M5
+N3430 G4 F3
+N3440 M52
+;*********************
+;*End of program*
+;*********************
+N3450 M2
